@@ -9,10 +9,14 @@ namespace BlogAPP_DAL.Intarface
     {
         Task<List<Article>> GetArticlesAsync();
 
-        Task<Article> GetArticleByIdAsync(int id);
+        Task<Article> GetArticleByIdAsync(string id);
 
-        Task<Article> GetArticleByTagAsync(string tag);
+        Task<List<Article>> GetArticleByTagAsync(string tag);
 
         Task<List<Article>> GetAllArticleByNameAuthor(string name);
+
+        void CreateArticleinDbAsync(Article article);
+
+        int GetCountArticleInDbPostByUser(string name);
     }
 }

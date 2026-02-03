@@ -86,9 +86,13 @@ export default {
     };
   },
   methods: {
-    logout() {
-      // Эмитим событие выхода
-      this.$emit('logout');
+    async logout() {
+        try {
+            await api.post('/EntranceConroller/Logout');
+        } catch (error) {
+            console.error('Ошибка при выходе:', error);
+        }
+        this.$emit('logout');
     }
   },
   mounted() {

@@ -18,20 +18,17 @@ namespace blogApp_DAL.Model
 
         // content (TEXT, Not Null)
         [Required]
-        public string Content { get; set; }
+        public string Text { get; set; }
 
         // excerpt (TEXT, Nullable)
-        public string Excerpt { get; set; }
+        public string Tag { get; set; }
 
-        // slug (TEXT, Nullable)
-        public string Slug { get; set; }
+        public string Description { get; set; }
 
         // cover_image (TEXT, Nullable)
-        public string CoverImage { get; set; }
+        public string Cover_image { get; set; }
 
-        // status (TEXT, Default: 'draft')
-        // Устанавливаем дефолтное значение на уровне C#
-        public string Status { get; set; } = "draft";
+        public string Author_Name { get; set; }
 
         // views (INTEGER, Default: 0)
         public int Views { get; set; } = 0;

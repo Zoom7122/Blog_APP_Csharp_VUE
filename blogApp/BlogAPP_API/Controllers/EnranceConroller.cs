@@ -4,13 +4,14 @@ using BlogAPP_BLL.Services;
 using BlogAPP_Core.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace BlogAPP_API.Controllers
 {
-
+    [AllowAnonymous]
     [Route("api/[controller]")]
     public class EntranceConroller : ControllerBase
     {
@@ -59,6 +60,33 @@ namespace BlogAPP_API.Controllers
 
 
             return Ok(new { success = true , user });
+        }
+
+        [HttpPost]
+        [Route("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Ok(new { success = true });
+        }
+
+        [HttpGet]
+        [Route("CheckAuth")]
+        public IActionResult CheckAuth()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = new
+                {
+                    Id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value,
+                    Email = User.FindFirst(ClaimTypes.Email)?.Value,
+                    Name = User.FindFirst(ClaimTypes.Name)?.Value,
+                    Avatar = User.FindFirst("Avatar")?.Value,
+                    Role = User.FindFirst("Role")?.Value
+                };
+                return Ok(new { success = true, user });
+            }
+            return Ok(new { success = false });
         }
 
 

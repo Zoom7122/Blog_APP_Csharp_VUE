@@ -57,7 +57,7 @@
 
 </template>
 <script>
-import axios from 'axios';
+import api from '@/axios-config';
 
 
 export default {
@@ -87,30 +87,21 @@ export default {
       
       console.log('Отправляю данные на C# API:', dataToSend)
       
-      try {
-        // Отправляем POST запрос на C# API
-        const response = await axios.post(
-          'https://localhost:7284/api/EntranceConroller/Login',
-          dataToSend,
-        )
-        this.ApiResponce = JSON.stringify(response.data, null, 2)
-
-        console.log('Ответ сервера:', response.data);
-
-        if (response.data && response.data.success === true) {
-          // ✅ Успешный вход
-          // Эмитим событие с данными пользователя
-          this.$emit('success', response.data.user);
-
-          this.email = '';
-          this.password = '';
-        } else {
-          // ❌ Ошибка входа
-          this.loginError = 'Неверный email или пароль';
-          this.ApiResponce = 'false';
-        }
-
-        }
+       try {
+            const response = await api.post('/EntranceConroller/Login', dataToSend);
+            
+            if (response.data && response.data.success === true) {
+                // ✅ Успешный вход
+                this.$emit('success', response.data.user);
+                
+                localStorage.setItem('user', JSON.stringify(response.data.user));
+                
+                this.email = '';
+                this.password = '';
+            } else {
+                this.ApiResponce = 'false';
+            }
+          }
        catch (err) {
         console.error('Ошибка при отправке:', err)
         

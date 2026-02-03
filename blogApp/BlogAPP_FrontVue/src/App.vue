@@ -45,10 +45,20 @@
 </template>
 
 <script>
+import axios from 'axios'; // Импортируем axios
 import Login from './components/Login.vue';
 import Registration from './components/RegisterPage.vue';
 import Dashboard from './components/Dashboard.vue';
 import InfAboutConnecting from './components/InfAboutConnecting.vue';
+
+// Создаем экземпляр axios с настройками
+const api = axios.create({
+  baseURL: 'https://localhost:7284/api',
+  withCredentials: true, // Важно для кук
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
 
 export default {
   name: 'App',
@@ -66,35 +76,54 @@ export default {
     };
   },
   methods: {
+    // ✅ ДОБАВЛЕНО: Метод для обработки успешного входа
     handleLoginSuccess(userData) {
+      console.log('Получены данные пользователя:', userData);
       this.isLoggedIn = true;
       this.userData = userData;
-      console.log('Вход выполнен:', userData);
+      localStorage.setItem('user', JSON.stringify(userData));
     },
+    
+    // ✅ ДОБАВЛЕНО: Метод для обработки успешной регистрации
     handleRegistrationSuccess(registrationData) {
       console.log('Регистрация успешна:', registrationData);
-      // После регистрации переключаем на страницу входа
       this.currentPage = 'login';
-      // Можно показать сообщение
       alert('Регистрация успешна! Теперь вы можете войти в систему.');
     },
-    handleLogout() {
+    
+    // Метод проверки авторизации
+    async checkAuth() {
+      try {
+        const response = await api.get('/EntranceConroller/CheckAuth');
+        if (response.data.success) {
+          this.isLoggedIn = true;
+          this.userData = response.data.user;
+          localStorage.setItem('user', JSON.stringify(response.data.user));
+        }
+      } catch (error) {
+        console.log('Пользователь не авторизован');
+        this.isLoggedIn = false;
+        this.userData = null;
+        localStorage.removeItem('user');
+      }
+    },
+    
+    // Метод выхода
+    async handleLogout() {
+      try {
+        await api.post('/EntranceConroller/Logout');
+      } catch (error) {
+        console.error('Ошибка при выходе:', error);
+      }
       this.isLoggedIn = false;
       this.userData = null;
+      localStorage.removeItem('user');
       this.currentPage = 'login';
       console.log('Выход выполнен');
-    },
-    ArticleAddPage(){
-
     }
   },
   mounted() {
-    // Проверяем, есть ли сохраненный токен или данные пользователя
-    const savedToken = localStorage.getItem('auth_token');
-    if (savedToken) {
-      // Можно проверить токен и автоматически войти
-      this.isLoggedIn = true;
-    }
+    this.checkAuth(); // Проверяем аутентификацию при загрузке
   }
 };
 </script>

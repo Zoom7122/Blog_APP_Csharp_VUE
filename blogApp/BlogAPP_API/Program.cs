@@ -5,12 +5,29 @@ using BlogAPP_Core;
 using blogApp_DAL;
 using blogApp_DAL.Intarface;
 using blogApp_DAL.Repository;
+using BlogAPP_DAL.Intarface;
+using BlogAPP_DAL.Repository;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Добавляем контроллеры
+
 builder.Services.AddControllers();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.Cookie.SameSite = SameSiteMode.None;
+        options.Cookie.Name = "AuthCookie";
+        options.LoginPath = "/api/EntranceConroller/Login";
+        options.LogoutPath = "/api/EntranceConroller/Logout";
+        options.ExpireTimeSpan = TimeSpan.FromDays(1);
+        options.SlidingExpiration = true;
+    });
+
 
 var dbPath = GetPath.GetDatabasePath();
 Console.WriteLine($"Путь к БД: {dbPath}");
@@ -22,18 +39,20 @@ builder.Services.AddDbContext<Blog_DBcontext>(opt => opt.UseSqlite(connectionStr
 
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
+builder.Services.AddScoped<IArticleService, ArticleService>();
+builder.Services.AddScoped<IArticleRepo, ArticleRepo>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 
-// 2. Настраиваем CORS для Vue (важно!)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowVue", policy =>
     {
         policy.WithOrigins("http://localhost:5173")  // адрес Vue
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
@@ -41,8 +60,6 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// 4. Подключаем ваши BLL и DAL сервисы
-// builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
@@ -53,6 +70,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
 app.UseHttpsRedirection();
 app.UseCors("AllowVue");
 app.UseAuthorization();

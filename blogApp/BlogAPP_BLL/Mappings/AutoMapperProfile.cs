@@ -29,7 +29,8 @@ namespace BlogAPP_BLL.Mappings
                 .ForMember(dest => dest.Bio,
                     opt => opt.MapFrom(src => src.Bio ?? string.Empty))
                 .ForMember(dest => dest.Role,
-                    opt => opt.MapFrom(src => string.IsNullOrEmpty(src.Role) ? "User" : src.Role));
+                    opt => opt.MapFrom(src => 
+                    string.IsNullOrEmpty(src.Role) ? "User" : src.Role));
 
             //CreateMap<User, UserEnrance>()
             //    .ForMember(x => x.Email,
@@ -44,6 +45,10 @@ namespace BlogAPP_BLL.Mappings
             //     y => y.MapFrom(y => y.FirstName));
             CreateMap<User, UserEnrance>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FirstName));
+
+            CreateMap<CreateArticleModel, Article>()
+                .ForMember(dest => dest.Id,
+                opt => opt.MapFrom(_ => Guid.NewGuid().ToString()));
         }
 
     }
