@@ -13,13 +13,13 @@ namespace BlogAPP_BLL.Services
     {
         private readonly IUserRepo _userRepo;
         private readonly IMapper _mapper;
-        private readonly IArticleService _articleService;
+        private readonly IArticleService _articleServic;
 
         public LoginService(IUserRepo userRepo, IMapper mapper, IArticleService articleService)
         {
             _userRepo = userRepo;
             _mapper = mapper;
-            _articleService = articleService;
+            _articleServic = articleService;
         }
 
         public async Task<UserEnrance> Login(LoginDate data)
@@ -34,6 +34,10 @@ namespace BlogAPP_BLL.Services
             var user = await _userRepo.FindUserByEmail(data.Email);
 
             var infoUser = _mapper.Map<UserEnrance>(user);
+
+            var countPost = await _articleServic.CountArticleWroteByUserAsync(user.Email);
+
+            infoUser.CountPost = countPost;
 
             return infoUser;
         }

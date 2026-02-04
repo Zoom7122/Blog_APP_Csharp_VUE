@@ -16,5 +16,6 @@ namespace BlogAPP_Core.Models
 
         public int ReadTime { get; set; }
 
+        //public List<string> tags { get; set; }
     }
 }

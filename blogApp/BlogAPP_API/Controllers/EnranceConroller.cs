@@ -41,7 +41,8 @@ namespace BlogAPP_API.Controllers
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim("Avatar", user.Avatar_url ?? ""),
-                new Claim("Role", user.Role ?? "User")
+                new Claim("Role", user.Role ?? "User"),
+                new Claim("CountPost", user.CountPost.ToString() ?? "1"),
             };
 
             var claimsIdentity = new ClaimsIdentity(
@@ -80,11 +81,11 @@ namespace BlogAPP_API.Controllers
             {
                 var user = new
                 {
-                    Id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value,
                     Email = User.FindFirst(ClaimTypes.Email)?.Value,
                     Name = User.FindFirst(ClaimTypes.Name)?.Value,
                     Avatar = User.FindFirst("Avatar")?.Value,
-                    Role = User.FindFirst("Role")?.Value
+                    Role = User.FindFirst("Role")?.Value,
+                    CountPost = User.FindFirst("CountPost")?.Value
                 };
                 return Ok(new { success = true, user });
             }

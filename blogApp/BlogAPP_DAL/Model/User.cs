@@ -27,8 +27,6 @@ namespace blogApp_DAL.Model
         [Required]
         public string Password { get; set; }
 
-        // created_at (DATETIME, Default: CURRENT_TIMESTAMP)
-        // В БД будет храниться как DATETIME, в C# как DateTime. Значение по умолчанию настраивается на уровне БД или в OnModelCreating EF Core.
         public DateTime Created_at { get; set; }
 
         public string Avatar_url { get; set; }

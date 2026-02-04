@@ -10,8 +10,6 @@ namespace blogApp_DAL
     {
         public DbSet<Article> Articles { get; set; }
 
-        public DbSet<Article_Authors> Article_Authors { get; set; }
-
         public DbSet<Article_Tag> Article_Tags { get; set; }
 
         public DbSet<Comment> Comments { get; set; }
@@ -51,9 +49,6 @@ namespace blogApp_DAL
 
             modelBuilder.Entity<Article_Tag>()
                 .HasKey(x => new { x.TagId, x.ArticleId });
-
-            modelBuilder.Entity<Article_Authors>()
-                .HasKey(x => new { x.UserId, x.ArticleId });
 
         }
     }

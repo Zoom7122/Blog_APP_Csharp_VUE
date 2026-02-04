@@ -39,6 +39,7 @@
       </button>
     </nav>
 
+
     <InfAboutConnecting v-if="!isLoggedIn" />
   </div>
 </template>

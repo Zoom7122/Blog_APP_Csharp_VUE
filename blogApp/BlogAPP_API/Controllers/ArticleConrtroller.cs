@@ -43,9 +43,7 @@ namespace BlogAPP_API.Controllers
                 var result = await _articleService.CreateArticle(model, userCookie);
 
                 if (result)
-                {
                     return Ok(new { success = true });
-                }
                 else return Ok(new { success = false });
             }
             catch (Exception ex)
