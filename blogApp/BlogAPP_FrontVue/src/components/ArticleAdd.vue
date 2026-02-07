@@ -3,7 +3,11 @@
     <div class="header">
       <h1>Новая статья</h1>
       <p>Заполните все поля для публикации статьи</p>
+    <button @click="CloseAddView" class="btn btn-primary">
+        Выйти
+    </button>
     </div>
+
 
     <form class="article-form">
       <!-- Заголовок -->
@@ -40,7 +44,6 @@
           v-model="article.description"
           placeholder="Краткое описание статьи (будет показано в списках)"
           rows="3"
-          required
           class="form-textarea"
         ></textarea>
       </div>
@@ -53,7 +56,6 @@
           v-model="article.text"
           placeholder="Начните писать вашу статью здесь..."
           rows="10"
-          required
           class="form-textarea large"
         ></textarea>
       </div>
@@ -68,7 +70,7 @@
               <input
                 type="number"
                 v-model="article.ReadTime"
-                min="1"
+                min="0"
                 class="meta-input"
                 placeholder="5"
               />
@@ -86,9 +88,9 @@
 
       <!-- Кнопки действий -->
       <div class="form-actions">
-        <button type="submit" class="btn btn-primary">
+        <buttonsubmit type="submit" class="btn btn-primary">
             Сохранить
-        </button>
+        </buttonsubmit>
       </div>
     </form>
   </div>
@@ -113,6 +115,9 @@ export default {
     }
   },
   methods: {
+    CloseAddView(){
+      this.$emit('close');
+    },
     handleSaveDraft() {
       this.article.status = 'draft'
       console.log('Сохранение черновика:', this.article)
@@ -165,9 +170,14 @@ export default {
 }
 
 .header {
+  display: flex;
   margin-bottom: 30px;
   padding-bottom: 20px;
   border-bottom: 2px solid #f0f0f0;
+    align-items: center; /* Вертикальное выравнивание */
+  justify-content: space-between; /* h1 слева, кнопка справа */
+  padding: 20px;
+  position: relative; /* Для абсолютного позиционирования кнопки если нужно */
 }
 
 .header h1 {

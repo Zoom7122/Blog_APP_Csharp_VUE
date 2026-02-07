@@ -54,7 +54,9 @@
 
 
 <ArticleView v-show="showArticleView"></ArticleView>
-<ArticleAdd v-show="showArticleForm"></ArticleAdd>
+<ArticleAdd v-show="showArticleForm" 
+  @close="showArticleForm = false"
+></ArticleAdd>
 
 </template>
 

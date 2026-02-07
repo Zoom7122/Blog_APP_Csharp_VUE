@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -11,13 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\123321312\BlogAPP_APi\BlogAPP_BLL\BlogAPP_BLL.csproj" />
     <ProjectReference Include="..\BlogAPP_BLL\BlogAPP_BLL.csproj" />
     <ProjectReference Include="..\BlogAPP_Core\BlogAPP_Core.csproj" />
+    <ProjectReference Include="..\BlogAPP_DAL\BlogAPP_DAL.csproj" />
   </ItemGroup>
 
 </Project>
