@@ -87,7 +87,7 @@ export default {
       console.log('Отправляю данные на C# API:', dataToSend)
       
        try {
-            const response = await api.post('/EntranceConroller/Login', dataToSend);
+            const response = await api.post('/Entrance/Login', dataToSend);
             
             if (response.data && response.data.success === true) {
 

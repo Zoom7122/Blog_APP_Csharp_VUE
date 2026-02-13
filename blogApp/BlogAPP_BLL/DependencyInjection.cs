@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlogAPP_BLL
+namespace BlogAPP_BLL.DependencyInjection
 {
     public static class DependencyInjection
     {

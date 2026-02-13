@@ -285,7 +285,7 @@ export default {
       
       try {
         const response = await axios.post(
-          'https://localhost:7284/api/EntranceConroller/Register', 
+          'https://localhost:7284/api/Entrance/Register', 
           registrationData,
           {
             headers: {

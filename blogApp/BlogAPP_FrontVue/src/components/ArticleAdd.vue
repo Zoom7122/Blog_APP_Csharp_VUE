@@ -153,7 +153,7 @@ export default {
        
        console.log('Отправляю данные на C# API:', this.article)
       try{
-      const response = await api.post('/ArticleConrtroller/CreateArticle', this.article);
+      const response = await api.post('/Articles/CreateArticle', this.article);
 
       if(response.data.success == true){
         this.successSendData = true

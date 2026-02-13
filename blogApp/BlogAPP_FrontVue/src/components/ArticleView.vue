@@ -111,7 +111,7 @@ export default {
     async FindByProperties() {
       try {
         console.log('Пользователь ввел: ' + this.properties.Title)
-        const response = await api.post('ArticleConrtroller/FindByProperties', this.properties)
+        const response = await api.post('Articles/FindByProperties', this.properties)
 
         console.log('Ответ от API: ', response.data)
         console.log('Успех: ' + response.data.success)

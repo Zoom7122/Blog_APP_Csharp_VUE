@@ -100,7 +100,7 @@ export default {
   methods: {
     async logout() {
         try {
-            await api.post('/EntranceConroller/Logout');
+            await api.post('/Entrance/Logout');
         } catch (error) {
             console.error('Ошибка при выходе:', error);
         }
@@ -115,7 +115,7 @@ export default {
     async GetCountComments(){
 
       try{
-        const response = await api.get('/Commets/GetCountComments')
+        const response = await api.get('/Comments/GetCountComments')
 
         if(response.data.countCommets >0){
           this.user.CountCommetsUser = response.data.countCommets
@@ -133,7 +133,7 @@ export default {
       async GetCountPost(){
 
      try {
-          const countP = await api.get('ArticleConrtroller/GetCountArticle');
+          const countP = await api.get('/Articles/GetCountArticle');
 
           this.user.countPost = countP.data
 

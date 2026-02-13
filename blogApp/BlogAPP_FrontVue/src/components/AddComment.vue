@@ -97,7 +97,7 @@ export default {
           CreatedAt: null
         };
         
-        const response = await api.post("/Commets/CreateComments", Comment);
+        const response = await api.post("/Comments/CreateComments", Comment);
         
         console.log('Ответ от API: ', response.data);
         console.log('Успех: ' + response.data.success);

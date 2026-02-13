@@ -6,10 +6,12 @@ using BlogAPP_Core;
 using blogApp_DAL;
 using blogApp_DAL.Intarface;
 using blogApp_DAL.Repository;
+using BlogAPP_DAL;
 using BlogAPP_DAL.Intarface;
 using BlogAPP_DAL.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using BlogAPP_BLL.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,17 +38,19 @@ if (string.IsNullOrWhiteSpace(cs))
 }
 builder.Services.AddDbContext<Blog_DBcontext>(opt => opt.UseSqlite(cs));
 
+//builder.Services.AddScoped<ILoginService, LoginService>();
+//builder.Services.AddScoped<IUserRepo, UserRepo>();
+//builder.Services.AddScoped<IArticleService, ArticleService>();
+//builder.Services.AddScoped<IArticleRepo, ArticleRepo>();
+//builder.Services.AddScoped<ICommentsRepo, CommentsRepo>();
+//builder.Services.AddScoped<ICommentsService, CommentsService>();
+//builder.Services.AddScoped<ITagRepo, TagRepo>();
+//builder.Services.AddScoped<IArticle_TagRepo, Article_TagRepo>();
+//builder.Services.AddScoped<ITagService, TagService>();
+//builder.Services.AddScoped<IPasswordService, PasswordService>();
 
-builder.Services.AddScoped<ILoginService, LoginService>();
-builder.Services.AddScoped<IUserRepo, UserRepo>();
-builder.Services.AddScoped<IArticleService, ArticleService>();
-builder.Services.AddScoped<IArticleRepo, ArticleRepo>();
-builder.Services.AddScoped<ICommentsRepo, CommentsRepo>();
-builder.Services.AddScoped<ICommentsService, CommentsService>();
-builder.Services.AddScoped<ITagRepo, TagRepo>();
-builder.Services.AddScoped<IArticle_TagRepo, Article_TagRepo>();
-builder.Services.AddScoped<ITagService, TagService>();
-builder.Services.AddScoped<IPasswordService, PasswordService>();
+builder.Services.AddDal();
+builder.Services.AddBll();
 
 
 
