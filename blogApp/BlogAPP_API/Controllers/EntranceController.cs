@@ -11,14 +11,16 @@ using System.Threading.Tasks;
 
 namespace BlogAPP_API.Controllers
 {
+
+    [ApiController]
     [AllowAnonymous]
     [Route("api/[controller]")]
-    public class EntranceConroller : ControllerBase
+    public class EntranceController : ControllerBase
     {
         private readonly ILoginService _logService;
         private readonly IArticleService _articleService;
 
-        public EntranceConroller(ILoginService logService, IArticleService articleService) 
+        public EntranceController(ILoginService logService, IArticleService articleService) 
         {
             _logService = logService;
             _articleService = articleService;

@@ -9,13 +9,15 @@ using System.Security.Claims;
 
 namespace BlogAPP_API.Controllers
 {
+
+    [ApiController]
     [Authorize]
     //[AllowAnonymous]
     [Route("api/[controller]")]
-    public class ArticleConrtroller : ControllerBase
+    public class ArticlesController : ControllerBase
     {
         private readonly IArticleService _articleService;
-        public ArticleConrtroller(IArticleService articleService) 
+        public ArticlesController(IArticleService articleService) 
         {
             _articleService = articleService;
         }

@@ -56,6 +56,7 @@
 <ArticleView v-show="showArticleView"></ArticleView>
 <ArticleAdd v-show="showArticleForm" 
   @close="showArticleForm = false"
+  @closeAddArticle="showArticleIsAdd"
 ></ArticleAdd>
 
 </template>
@@ -104,6 +105,11 @@ export default {
             console.error('Ошибка при выходе:', error);
         }
         this.$emit('logout');
+    },
+
+    showArticleIsAdd(data){
+      console.log("Данные статьи:", JSON.stringify(data, null, 2)); 
+      this.showArticleForm = false
     },
 
     async GetCountComments(){

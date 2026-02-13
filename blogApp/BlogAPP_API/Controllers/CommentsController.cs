@@ -8,14 +8,16 @@ using System.Security.Claims;
 
 namespace BlogAPP_API.Controllers
 {
+
+    [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class CommetsController : ControllerBase
+    public class CommentsController : ControllerBase
     {
         private readonly ICommentsService _commentsService;
         private readonly ILoginService _loginService;
 
-        public CommetsController(ICommentsService commentsService, ILoginService loginService)
+        public CommentsController(ICommentsService commentsService, ILoginService loginService)
         {
             _commentsService = commentsService;
             _loginService = loginService;

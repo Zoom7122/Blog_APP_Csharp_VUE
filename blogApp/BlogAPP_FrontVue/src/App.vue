@@ -45,14 +45,15 @@
 </template>
 
 <script>
-import axios from 'axios'; 
+import api from './axios-config';
 import Login from './components/Login.vue';
 import Registration from './components/RegisterPage.vue';
 import Dashboard from './components/Dashboard.vue';
 import InfAboutConnecting from './components/InfAboutConnecting.vue';
 
 
-const api = axios.create({
+
+const responseMain = api.create({
   baseURL: 'https://localhost:7284/api',
   withCredentials: true, 
   headers: {

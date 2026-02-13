@@ -29,14 +29,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.SlidingExpiration = true;
     });
 
+var cs = builder.Configuration.GetConnectionString("Default");
+if (string.IsNullOrWhiteSpace(cs))
+{
+    cs = $"Data source={GetPath.GetDatabasePath()}";
+}
+builder.Services.AddDbContext<Blog_DBcontext>(opt => opt.UseSqlite(cs));
 
-var dbPath = GetPath.GetDatabasePath();
-Console.WriteLine($"Путь к БД: {dbPath}");
-Console.WriteLine($"Файл существует: {File.Exists(dbPath)}");
-Console.WriteLine($"Полный путь: {Path.GetFullPath(dbPath)}");
-
-var connectionString = $"Data source={GetPath.GetDatabasePath()}";
-builder.Services.AddDbContext<Blog_DBcontext>(opt => opt.UseSqlite(connectionString));
 
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
@@ -48,6 +47,7 @@ builder.Services.AddScoped<ITagRepo, TagRepo>();
 builder.Services.AddScoped<IArticle_TagRepo, Article_TagRepo>();
 builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
+
 
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
@@ -64,24 +64,37 @@ builder.Services.AddCors(options =>
     });
 });
 
-// 3. Добавляем Swagger для тестирования API
+
+//свагер
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
     var app = builder.Build();
 
-// Конфигурация middleware pipeline
+//свагер development
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseAuthentication();
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        context.Response.StatusCode = 500;
+        await context.Response.WriteAsJsonAsync(new { message = "Ошибка сервера" });
+    });
+});
+
 app.UseHttpsRedirection();
-app.UseCors("AllowVue");
+
+app.UseCors("AllowVue");     
+
+app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

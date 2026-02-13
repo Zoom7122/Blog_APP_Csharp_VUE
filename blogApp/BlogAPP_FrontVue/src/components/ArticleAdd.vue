@@ -39,7 +39,6 @@
          <small class="hint">Нажмите Enter, чтобы добавить тег</small>
       </div>
 
-      <!-- Slug (ЧПУ) -->
       <div class="form-group">
         <label for="slug">URL адрес (slug)</label>
         <input
@@ -65,7 +64,6 @@
         ></textarea>
       </div>
 
-      <!-- Основной контент -->
       <div class="form-group">
         <label for="content">Текст статьи *</label>
         <textarea
@@ -159,6 +157,17 @@ export default {
 
       if(response.data.success == true){
         this.successSendData = true
+
+        this.$emit('closeAddArticle', this.article);
+        
+        this.article = {
+          Title: '',
+          CoverImage: '',
+          Description: '',
+          Text: '',
+          ReadTime: 1,
+          Tag: []
+        }
       }
       else {
         this.errorApi = "Ошибка: сервер вернул false";
@@ -182,7 +191,6 @@ export default {
     },
   },
   mounted() {
-    // Устанавливаем текущую дату и время по умолчанию
     const now = new Date()
     const localDateTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
       .toISOString()
