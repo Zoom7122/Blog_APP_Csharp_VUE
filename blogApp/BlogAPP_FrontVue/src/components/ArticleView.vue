@@ -2,8 +2,8 @@
   <div class="article-view">
     <div class="search-container">
       <input v-model="properties.Title" placeholder="Введите название">
-      <input v-model="properties.Tag" placeholder="Введите тег">
-      <button @click="FindByProperties()">Найти по свойствам</button>
+      <input v-model="tagInput" placeholder="Введите тег">
+      <button type="button" @click="FindByProperties">Найти по свойствам</button>
     </div>
 
     <!-- Сообщение если статьи не найдены -->
@@ -86,12 +86,12 @@ export default {
     return {
       loading: false,
       ArticleList: [],
-      
+      tagInput: '',
       showComments: false,
 
       properties: {
         Title: "",
-         Tags: ""
+         Tags: []
       }
     }
   },
@@ -111,6 +111,8 @@ export default {
     
     async FindByProperties() {
       try {
+        const normalizedTag = this.tagInput.trim();
+        this.properties.Tags = normalizedTag ? [normalizedTag] : [];
         console.log('Пользователь ввел: ' + this.properties.Title)
         const response = await api.post('/Articles/FindByProperties', this.properties)
 
@@ -140,7 +142,7 @@ export default {
                 comments: item.comments ? item.comments.map(com => ({
                   UserName: com.userName || 'Нет имени',
                   Content: com.content || 'Нет текста',
-                  CreatedAt: com.createdAt.slice(0,10) || ''
+                  CreatedAt: com.createdAt ? com.createdAt.slice(0, 10) : ''
                 })) : []
             }
            console.log('Преобразованный элемент: ', article);
