@@ -18,12 +18,10 @@ namespace BlogAPP_API.Controllers
     public class EntranceController : ControllerBase
     {
         private readonly ILoginService _logService;
-        private readonly IArticleService _articleService;
 
         public EntranceController(ILoginService logService, IArticleService articleService) 
         {
             _logService = logService;
-            _articleService = articleService;
         }
 
         [HttpGet("boom")]
@@ -31,16 +29,16 @@ namespace BlogAPP_API.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login([FromBody] LoginDate data)
+        public async Task<ActionResult<BlogAPP_Core.Models.AuthResponseDto>> Login([FromBody] LoginDate data)
         {
             try
             {
                 var user = await _logService.Login(data);
                 if (user == null)
-                    return Ok(new
+                    return Ok(new BlogAPP_Core.Models.AuthResponseDto
                     {
-                        success = false,
-                        messegeEror = "Неверный Email или пароль"
+                        Success = false,
+                        ErrorMessage = "Неверный Email или пароль"
                     });
 
                 var claims = new List<Claim>
@@ -67,11 +65,11 @@ namespace BlogAPP_API.Controllers
                     new ClaimsPrincipal(claimsIdentity),
                     authProperties);
 
-                return Ok(new { success = true, user });
+                return Ok(new BlogAPP_Core.Models.AuthResponseDto { Success = true, User = user });
             }
             catch (Exception ex)
             {
-                return Ok(new { success = false, errorMessege = $"Ошибка: {ex.Message}"});
+                return Ok(new BlogAPP_Core.Models.AuthResponseDto { Success = false, ErrorMessage = $"Ошибка: {ex.Message}" });
             }
         }
 
