@@ -1,252 +1,309 @@
+/* ===== Page background ===== */
 .registration-container {
-  max-width: 800px;
+  max-width: 760px;
   margin: 0 auto;
-  padding: 30px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 26px;
+
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid rgba(16, 24, 40, 0.08);
+  box-shadow: 0 20px 45px rgba(16, 24, 40, 0.10);
+
+  animation: popIn 240ms ease-out;
 }
 
+@keyframes popIn {
+  from { transform: translateY(8px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* Если у тебя страница “голая”, добавь фон через родителя (App) —
+   но если регистр отображается внутри App, то тут можно оставить только карточку.
+*/
+
 h1 {
-  color: #333;
-  margin-bottom: 10px;
-  font-size: 28px;
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #0f172a;
   text-align: center;
 }
 
 p {
-  color: #666;
-  margin-bottom: 30px;
+  margin: 10px 0 0 0;
   text-align: center;
-  font-size: 16px;
-}
-
-.form {
-  margin: 30px 0;
-  padding: 25px;
-  background: #f9f9f9;
-  border-radius: 10px;
-  border: 1px solid #eee;
-}
-
-.form-group {
-  margin-bottom: 25px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 600;
-  color: #444;
+  color: #64748b;
   font-size: 14px;
 }
 
+/* ===== Form card ===== */
+.form {
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  background: rgba(248, 250, 252, 0.70);
+}
+
+.form-group {
+  margin-bottom: 14px;
+  display: grid;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 800;
+  color: #334155;
+}
+
+/* ===== Inputs ===== */
 .input-field {
   width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 16px;
-  transition: all 0.3s;
+  padding: 12px 14px;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  border-radius: 12px;
+  font-size: 15px;
+  outline: none;
+  background: #fff;
+  color: #0f172a;
+  transition: box-shadow 0.15s, border-color 0.15s, transform 0.06s;
   box-sizing: border-box;
 }
 
+.input-field::placeholder {
+  color: #94a3b8;
+}
+
 .input-field:hover {
-  border-color: #bbb;
+  border-color: rgba(15, 23, 42, 0.22);
 }
 
 .input-field:focus {
-  outline: none;
-  border-color: #42b883;
-  box-shadow: 0 0 0 3px rgba(66, 184, 131, 0.2);
-}
-
-.input-field.error-input {
-  border-color: #ff6b6b;
-  background-color: #fff5f5;
-}
-
-.error-message {
-  color: #ff6b6b;
-  font-size: 13px;
-  margin-top: 5px;
-  font-style: italic;
+  border-color: rgba(66, 184, 131, 0.7);
+  box-shadow: 0 0 0 4px rgba(66, 184, 131, 0.18);
 }
 
 .textarea {
-  min-height: 80px;
+  min-height: 90px;
   resize: vertical;
   font-family: inherit;
+  line-height: 1.35;
 }
 
+/* Ошибка поля */
+.input-field.error-input {
+  border-color: rgba(239, 68, 68, 0.55);
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.14);
+  background: rgba(239, 68, 68, 0.03);
+}
+
+.error-message {
+  color: #b91c1c;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+/* ===== Buttons ===== */
 .form-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-top: 30px;
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
 }
 
 .submit-btn {
-  padding: 14px 25px;
-  background: linear-gradient(135deg, #42b883, #3aa876);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
+  width: 100%;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #42b883, #2aa56e);
+  color: #fff;
+  font-weight: 900;
+  font-size: 15px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: transform 0.06s, box-shadow 0.15s, filter 0.15s;
+  box-shadow: 0 12px 28px rgba(66, 184, 131, 0.25);
 }
 
 .submit-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #3aa876, #2e8b57);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(66, 184, 131, 0.3);
+  filter: brightness(1.02);
+  box-shadow: 0 14px 34px rgba(66, 184, 131, 0.30);
+}
+
+.submit-btn:active:not(:disabled) {
+  transform: translateY(1px);
 }
 
 .submit-btn:disabled {
-  background: #ccc;
   cursor: not-allowed;
-  transform: none;
+  opacity: 0.72;
+  box-shadow: none;
 }
 
+/* Вторая кнопка */
 .secondary-btn {
-  padding: 12px 25px;
-  background: transparent;
-  color: #42b883;
-  border: 2px solid #42b883;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 600;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(66, 184, 131, 0.08);
+  color: #1f7a56;
+  border: 1px solid rgba(66, 184, 131, 0.25);
+  font-weight: 900;
+  font-size: 14px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: transform 0.06s, box-shadow 0.15s, background 0.15s, border-color 0.15s;
 }
 
 .secondary-btn:hover {
-  background: rgba(66, 184, 131, 0.1);
+  background: rgba(66, 184, 131, 0.12);
+  border-color: rgba(66, 184, 131, 0.35);
+  box-shadow: 0 10px 22px rgba(16, 24, 40, 0.08);
 }
 
-/* Сообщения */
+.secondary-btn:active {
+  transform: translateY(1px);
+}
+
+/* ===== Success / Error boxes ===== */
+.success-box,
+.error-box {
+  margin-top: 16px;
+  border-radius: 16px;
+  padding: 16px;
+  border: 1px solid rgba(16, 24, 40, 0.08);
+  box-shadow: 0 16px 34px rgba(16, 24, 40, 0.08);
+}
+
 .success-box {
-  margin: 30px 0;
-  padding: 25px;
-  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
-  border-radius: 10px;
-  border-left: 5px solid #4caf50;
-  text-align: center;
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.22);
 }
 
 .success-box h3 {
-  color: #2e7d32;
-  margin-top: 0;
-  margin-bottom: 15px;
+  margin: 0 0 8px 0;
+  color: #166534;
+  font-size: 16px;
+  font-weight: 900;
 }
 
 .success-box p {
-  color: #388e3c;
-  margin-bottom: 20px;
+  margin: 0 0 12px 0;
+  color: #166534;
+  font-size: 14px;
 }
 
 .success-btn {
-  padding: 12px 25px;
-  background: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 15px;
-  font-weight: 600;
+  padding: 12px 14px;
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background 0.3s;
+  font-weight: 900;
+  color: #fff;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  box-shadow: 0 12px 28px rgba(34, 197, 94, 0.22);
+  transition: transform 0.06s, box-shadow 0.15s, filter 0.15s;
 }
 
 .success-btn:hover {
-  background: #3d8b40;
+  filter: brightness(1.02);
+  box-shadow: 0 14px 34px rgba(34, 197, 94, 0.28);
+}
+
+.success-btn:active {
+  transform: translateY(1px);
 }
 
 .error-box {
-  margin: 30px 0;
-  padding: 25px;
-  background: linear-gradient(135deg, #ffebee, #ffcdd2);
-  border-radius: 10px;
-  border-left: 5px solid #f44336;
+  background: rgba(239, 68, 68, 0.07);
+  border-color: rgba(239, 68, 68, 0.22);
 }
 
 .error-box h3 {
-  color: #c62828;
-  margin-top: 0;
-  margin-bottom: 15px;
+  margin: 0 0 8px 0;
+  color: #991b1b;
+  font-size: 16px;
+  font-weight: 900;
 }
 
 .error-box p {
-  color: #d32f2f;
-  margin-bottom: 15px;
+  margin: 0 0 10px 0;
+  color: #991b1b;
+  font-size: 14px;
 }
 
 .validation-errors {
-  margin-top: 15px;
-  padding: 15px;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 6px;
+  margin-top: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
 }
 
 .validation-errors ul {
   margin: 0;
-  padding-left: 20px;
+  padding-left: 18px;
 }
 
 .validation-errors li {
-  color: #d32f2f;
-  margin-bottom: 5px;
+  margin: 6px 0;
+  color: #7f1d1d;
+  font-size: 13px;
+  font-weight: 700;
 }
 
+/* ===== Debug ===== */
 .debug-box {
-  margin-top: 30px;
-  padding: 20px;
-  background: #f5f5f5;
-  border-radius: 8px;
-  border: 1px dashed #999;
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px dashed rgba(15, 23, 42, 0.25);
+  background: rgba(15, 23, 42, 0.04);
 }
 
 .debug-box h4 {
-  color: #666;
-  margin-top: 0;
+  margin: 0 0 10px 0;
+  color: #334155;
+  font-weight: 900;
+  font-size: 14px;
 }
 
 .debug-box pre {
-  background: white;
-  padding: 15px;
-  border-radius: 6px;
+  margin: 0;
+  padding: 12px;
+  border-radius: 12px;
+  background: #0b1220;
+  color: rgba(255, 255, 255, 0.85);
   overflow: auto;
-  font-family: 'Consolas', monospace;
-  font-size: 13px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 12px;
   line-height: 1.4;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
-/* Адаптивность */
+/* ===== Responsive ===== */
 @media (max-width: 768px) {
   .registration-container {
-    padding: 20px;
-    margin: 10px;
+    padding: 18px;
+    border-radius: 16px;
   }
-  
+
   .form {
-    padding: 20px;
+    padding: 14px;
   }
-  
-  .form-actions {
-    flex-direction: column;
+
+  h1 {
+    font-size: 22px;
   }
 }
 
 @media (max-width: 480px) {
-  h1 {
-    font-size: 24px;
-  }
-  
   .input-field,
   .submit-btn,
-  .secondary-btn {
+  .secondary-btn,
+  .success-btn {
     font-size: 14px;
-    padding: 10px 15px;
   }
 }

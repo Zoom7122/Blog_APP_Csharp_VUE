@@ -20,6 +20,8 @@ namespace BlogAPP_DAL.Intarface
 
         Task<List<Article>> GetArticleByTitileANDTagAsync(ArticlePropertiesFind propertiesFind);
 
+        Task<List<Article>> GetArticlesByTagsAsync(IEnumerable<string> tags);
+
         Task<List<Article>> GetArticleByTitileAsync(string titile);
 
     }

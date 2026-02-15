@@ -1,60 +1,59 @@
 <template>
-
-<div class="app">
-    <h1>Login</h1>
-    <p>Введите данные и нажмите кнопку для отправки на сервер</p>
-    
-    <div class="form">
-      <div class="form-group">
-        <label>Email адрес:</label>
-        <input 
-          type="text" 
-          v-model="email"
-          placeholder="test@example.com"
-          class="input-field"
-        />
+  <div class="login-page">
+    <div class="login-card">
+      <div class="login-header">
+        <h1 class="login-title">Вход</h1>
+        <p class="login-subtitle">Введите данные и нажмите кнопку для отправки на сервер</p>
       </div>
-      
-      <div class="form-group">
-        <label>Пароль:</label>
-        <input 
-          type="password" 
-          v-model="password"
-          placeholder="123456"
-          class="input-field"
-        />
+
+      <div class="form">
+        <div class="form-group">
+          <label class="label">Email адрес</label>
+          <input
+            type="text"
+            v-model="email"
+            placeholder="test@example.com"
+            class="input-field"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="label">Пароль</label>
+          <input
+            type="password"
+            v-model="password"
+            placeholder="123456"
+            class="input-field"
+          />
+        </div>
+
+        <button
+          type="button"
+          @click="sendData"
+          :disabled="loading"
+          class="submit-btn"
+        >
+          <span v-if="loading" class="spinner" aria-hidden="true"></span>
+          {{ loading ? 'Отправка...' : 'Войти' }}
+        </button>
+
+        <div v-if="ApiResponce == 'false'" class="notice notice-error">
+          <strong>Ошибка:</strong> Неверный Email или пароль
+        </div>
+
+        <div v-if="error" class="notice notice-warning">
+          <strong>Ошибка:</strong> {{ error }}
+        </div>
+
+        <div v-if="ApiResponce && ApiResponce !== 'false'" class="response">
+          <div class="response-head">
+            <h3 class="response-title">Ответ сервера</h3>
+          </div>
+          <pre class="response-content">{{ ApiResponce }}</pre>
+        </div>
       </div>
-      
-      <button 
-        @click="sendData" 
-        :disabled="loading"
-        class="submit-btn"
-      >
-        {{ loading ? 'Отправка...' : 'Отправить в C# API' }}
-      </button>
     </div>
-
-    <div v-show="ApiResponce == 'false'" class="ApiResponceFalse">
-        <p>Неверный Email или Пароль</p>
-    </div>
-    
-    <!-- Результат от сервера -->
-    <div v-if="ApiResponce" class="ApiResponce-box">
-      <h3>Ответ от C# сервера:</h3>
-      <pre class="ApiResponce-content">{{ ApiResponce }}</pre>
-    </div>
-    
-    <!-- Ошибка -->
-    <div v-if="error" class="error-box">
-      <strong>Ошибка:</strong> {{ error }}
-    </div>
-
-    <div v-if="error" class="error-box">
-      <strong>Ошибка:</strong> {{ error }}
-    </div>
-
   </div>
-
 </template>
 <script>
 import api from '@/axios-config';

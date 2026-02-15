@@ -1,121 +1,201 @@
 
-/* Базовые стили */
-body {
-  font-family: 'Arial', sans-serif;
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(1200px 600px at 20% 10%, rgba(66, 184, 131, 0.14), transparent 60%),
+    radial-gradient(900px 500px at 80% 30%, rgba(64, 158, 255, 0.12), transparent 55%),
+    #f7f8fb;
+}
+
+
+.login-card {
+  width: 100%;
+  max-width: 520px;
+  background: #fff;
+  border: 1px solid rgba(16, 24, 40, 0.08);
+  border-radius: 18px;
+  box-shadow: 0 20px 45px rgba(16, 24, 40, 0.10);
+  padding: 26px;
+  animation: popIn 240ms ease-out;
+}
+
+@keyframes popIn {
+  from { transform: translateY(8px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+
+.login-header {
+  margin-bottom: 18px;
+}
+
+.login-title {
   margin: 0;
-  padding: 20px;
-  background-color: #f5f5f5;
+  font-size: 28px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #0f172a;
 }
 
-.app {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+.login-subtitle {
+  margin: 8px 0 0 0;
+  font-size: 14px;
+  color: #64748b;
 }
 
-h1 {
-  color: #333;
-  margin-bottom: 10px;
-}
 
-p {
-  color: #666;
-  margin-bottom: 20px;
-}
-
-/* Стили формы */
 .form {
-  margin: 30px 0;
-  padding: 20px;
-  background: #f9f9f9;
-  border-radius: 8px;
+  display: grid;
+  gap: 14px;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  display: grid;
+  gap: 8px;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-  color: #444;
+.label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
 }
+
 
 .input-field {
   width: 100%;
-  max-width: 400px;
-  padding: 10px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-  transition: border-color 0.3s;
+  padding: 12px 14px;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  border-radius: 12px;
+  font-size: 15px;
+  outline: none;
+  background: #fff;
+  color: #0f172a;
+  transition: box-shadow 0.15s, border-color 0.15s, transform 0.06s;
+}
+
+.input-field::placeholder {
+  color: #94a3b8;
 }
 
 .input-field:focus {
-  outline: none;
-  border-color: #42b883;
-  box-shadow: 0 0 0 2px rgba(66, 184, 131, 0.2);
+  border-color: rgba(66, 184, 131, 0.7);
+  box-shadow: 0 0 0 4px rgba(66, 184, 131, 0.18);
 }
+
+.input-field:active {
+  transform: translateY(0.5px);
+}
+
 
 .submit-btn {
-  padding: 12px 25px;
-  background: #42b883;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  font-weight: bold;
+  width: 100%;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #42b883, #2aa56e);
+  color: #fff;
+  font-weight: 800;
+  font-size: 15px;
   cursor: pointer;
+  transition: transform 0.06s, box-shadow 0.15s, filter 0.15s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 12px 28px rgba(66, 184, 131, 0.25);
 }
 
-.submit-btn:hover:not(:disabled) {
-  background: #3aa876;
+.submit-btn:hover {
+  filter: brightness(1.02);
+  box-shadow: 0 14px 34px rgba(66, 184, 131, 0.30);
+}
+
+.submit-btn:active {
+  transform: translateY(1px);
 }
 
 .submit-btn:disabled {
-  background: #ccc;
   cursor: not-allowed;
+  opacity: 0.7;
+  box-shadow: none;
 }
 
-/* Стили для результата */
-.ApiResponce-box {
-  margin: 25px 0;
-  padding: 20px;
-  background: #e8f5e9;
-  border-radius: 8px;
-  border-left: 4px solid #4caf50;
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  border-top-color: rgba(255, 255, 255, 1);
+  animation: spin 0.8s linear infinite;
 }
 
-.ApiResponce-box h3 {
-  color: #2e7d32;
-  margin-top: 0;
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
-.ApiResponce-content {
-  background: white;
-  padding: 15px;
-  border-radius: 4px;
-  overflow: auto;
-  font-family: 'Consolas', 'Monaco', monospace;
+
+.notice {
+  border-radius: 12px;
+  padding: 12px 14px;
   font-size: 14px;
-  line-height: 1.4;
+  line-height: 1.35;
+  border: 1px solid transparent;
 }
 
-/* Стили для ошибок */
-.error-box {
-  margin: 25px 0;
-  padding: 15px;
-  background: #ffebee;
-  border-radius: 8px;
-  border-left: 4px solid #f44336;
-  color: #c62828;
+.notice-error {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.22);
+  color: #991b1b;
 }
 
-.ApiResponceFalse p{
-    font-size: 20;
-    color: red;
+.notice-warning {
+  background: rgba(245, 158, 11, 0.10);
+  border-color: rgba(245, 158, 11, 0.22);
+  color: #92400e;
+}
+
+
+.response {
+  margin-top: 4px;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  background: #0b1220;
+  overflow: hidden;
+}
+
+.response-head {
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.response-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.response-content {
+  margin: 0;
+  padding: 12px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.82);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+
+@media (max-width: 520px) {
+  .login-card {
+    padding: 18px;
+    border-radius: 16px;
+  }
+  .login-title {
+    font-size: 24px;
+  }
 }

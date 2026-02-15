@@ -59,5 +59,28 @@ namespace BlogAPP_DAL.Repository
         {
             return await _context.Articles.Where(x =>x.Title == propertiesFind.Title).ToListAsync();
         }
+
+        public async Task<List<Article>> GetArticlesByTagsAsync(IEnumerable<string> tags)
+        {
+            if (tags == null || !tags.Any())
+                return new List<Article>();
+
+            var normalized = tags.Select(t => t.Trim().ToLower()).ToList();
+
+            var query = _context.Articles
+                .Where(a => _context.Article_Tags
+                    .Where(at => normalized.Contains(at.Tag.Name.ToLower()))
+                    .Select(at => at.Article_id)
+                    .Contains(a.Id));
+
+
+            query = query.Where(a => normalized.All(t => _context.Article_Tags
+                            .Where(at => at.Article_id == a.Id)
+                            .Select(at => at.Tag.Name.ToLower())
+                            .Contains(t)));
+            
+
+            return await query.ToListAsync();
+        }
     }
 }

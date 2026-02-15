@@ -98,10 +98,19 @@ namespace BlogAPP_BLL.Services
 
         private async Task<List<Article>> GetArticlesByCriteria(ArticlePropertiesFind properties)
         {
-            return (properties.Title) switch
+
+            if (properties == null)
+                return null;
+
+            if (properties.Tags != null && properties.Tags.Count > 0)
             {
-                (null) => null,
-                (string title) => await _articleRepo.GetArticleByTitileAsync(title),
+                return await _articleRepo.GetArticlesByTagsAsync(properties.Tags);
+            }
+
+            return properties.Title switch
+            {
+                null => null,
+                string title => await _articleRepo.GetArticleByTitileAsync(title),
             };
         }
     }
