@@ -1,4 +1,5 @@
-﻿using BlogAPP_Core.Models;
+﻿using BlogAPP_BLL.Models;
+using BlogAPP_Core.Models;
 using blogApp_DAL.Model;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,7 @@ namespace BlogAPP_BLL.Intarface
         Task<bool> Register(CreateUserDto data);
 
         Task<User> FindUserByEmail(string email);
+
+        Task<UserEnrance> UpdateUserAsync(string currentEmail, BlogAPP_Core.Models.UpdateUserDto data);
     }
 }

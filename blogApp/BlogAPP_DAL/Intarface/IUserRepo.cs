@@ -14,6 +14,8 @@ namespace blogApp_DAL.Intarface
         Task CreateUserAsync(User user);
 
         Task<User> FindUserById(string id);
-        
+
+
+        Task UpdateUserAsync(User user);
     }
 }

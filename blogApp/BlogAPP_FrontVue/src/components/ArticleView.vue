@@ -55,8 +55,8 @@
         <AddComment :articleId="article.Id"></AddComment>
 
         <button v-show="!showComments"
-        @click="showComments = true"
-        class="showCommentsButton" >Показать комментарии к статье</button>
+          @click="showComments = true"
+          class="showCommentsButton">Показать комментарии к статье</button>
 
         <div v-show="showComments" class="divComments">
         <div class="countComments"> Колличество камментариев: {{ article.comments.length }}</div>
@@ -66,7 +66,7 @@
             <p>Комментарий : {{ comIndex + 1 }}</p>
             <h5 class="nameAuthorConnent"> {{ com.UserName }}</h5>
             <p class="contentComments">{{ com.Content }}</p>
-            <p class="timeComments"> Опубликован в {{ com.CreatedAt || "1212"}}</p>
+            <p class="timeComments"> Опубликован в {{ com.CreatedAt || 'Дата неизвестна'}}</p>
               <button
               v-if="isAdmin"
               type="button"
@@ -108,6 +108,7 @@ export default {
       default: ''
     }
   },
+  emits: ['close', 'logout'],
   data() {
     return {
       loading: false,

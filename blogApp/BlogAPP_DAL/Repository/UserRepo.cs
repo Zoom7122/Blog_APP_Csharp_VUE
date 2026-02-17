@@ -30,6 +30,12 @@ namespace blogApp_DAL.Repository
             return true;
         }
 
+
+        public async Task UpdateUserAsync(User user)
+        {
+            _context.User.Update(user);
+            await _context.SaveChangesAsync();
+        }
         public async Task CreateUserAsync(User user)
         {
             var entry = _context.Entry(user);

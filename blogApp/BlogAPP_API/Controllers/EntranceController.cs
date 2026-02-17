@@ -1,5 +1,6 @@
 ﻿
 using BlogAPP_BLL.Intarface;
+using BlogAPP_BLL.Models;
 using BlogAPP_BLL.Services;
 using BlogAPP_Core.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -123,6 +124,56 @@ namespace BlogAPP_API.Controllers
                     success = false,
                     messegeEror = ex.Message
                 });
+            }
+        }
+
+
+
+        [Authorize]
+        [HttpPut]
+        [Route("UpdateUser")]
+        public async Task<IActionResult> UpdateUser([FromBody] BlogAPP_Core.Models.UpdateUserDto data)
+        {
+            try
+            {
+                var currentEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+                if (string.IsNullOrWhiteSpace(currentEmail))
+                    return Unauthorized(new { success = false, message = "Пользователь не авторизован" });
+
+                var updatedUser = await _logService.UpdateUserAsync(currentEmail, data);
+
+                var userRole = string.IsNullOrWhiteSpace(updatedUser.Role) ? "User" : updatedUser.Role;
+
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Email, updatedUser.Email),
+                    new Claim(ClaimTypes.Name, updatedUser.Name),
+                    new Claim("Avatar", updatedUser.Avatar_url ?? ""),
+                    new Claim("Role", userRole),
+                    new Claim(ClaimTypes.Role, userRole),
+                    new Claim("CountPost", updatedUser.CountPost.ToString())
+                };
+
+                var claimsIdentity = new ClaimsIdentity(
+                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7),
+                    AllowRefresh = true
+                };
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    authProperties);
+
+                return Ok(new AuthResponseDto { Success = true, User = updatedUser });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new AuthResponseDto { Success = false, ErrorMessage = ex.Message });
             }
         }
     }

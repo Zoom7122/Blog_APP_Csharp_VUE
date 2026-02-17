@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BlogAPP_BLL.Exceptions;
 using BlogAPP_BLL.Intarface;
+using BlogAPP_BLL.Models;
 using BlogAPP_Core.Models;
 using blogApp_DAL.Intarface;
 using blogApp_DAL.Model;
@@ -24,6 +25,39 @@ namespace BlogAPP_BLL.Services
             _mapper = mapper;
             _articleServic = articleService;
             _passwordService = passwordService;
+        }
+        public async Task<UserEnrance> UpdateUserAsync(string currentEmail, BlogAPP_Core.Models.UpdateUserDto data)
+        {
+            if (string.IsNullOrWhiteSpace(currentEmail))
+                throw new ArgumentException("Текущий email не может быть пустым", nameof(currentEmail));
+
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
+
+            var user = await _userRepo.FindUserByEmail(currentEmail);
+            if (user == null)
+                throw new UserNotFoundException("Пользователь не найден");
+
+            var normalizedEmail = string.IsNullOrWhiteSpace(data.Email) ? user.Email : data.Email.Trim();
+
+            if (!string.Equals(user.Email, normalizedEmail, StringComparison.OrdinalIgnoreCase))
+            {
+                var existingUser = await _userRepo.FindUserByEmail(normalizedEmail);
+                if (existingUser != null)
+                    throw new RegisterException("Пользователь с таким email уже существует");
+            }
+
+            user.FirstName = data.FirstName?.Trim() ?? user.FirstName;
+            user.Email = normalizedEmail;
+            user.Avatar_url = data.Avatar_url?.Trim() ?? string.Empty;
+            user.Bio = data.Bio?.Trim() ?? string.Empty;
+
+            await _userRepo.UpdateUserAsync(user);
+
+            var infoUser = _mapper.Map<UserEnrance>(user);
+            infoUser.CountPost = await _articleServic.CountArticleWroteByUserAsync(user.Email);
+
+            return infoUser;
         }
 
         public async Task<UserEnrance> Login(LoginDate data)
