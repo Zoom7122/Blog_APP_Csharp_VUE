@@ -21,6 +21,26 @@
         <p><strong>Email:</strong> {{ user.email }}</p>
         <p><strong>Роль:</strong> {{ user.role }}</p>
         
+        <p v-if="user.bio"><strong>О себе:</strong> {{ user.bio }}</p>
+
+        <button class="edit-toggle-btn" @click="toggleEditProfile">
+          {{ isEditingProfile ? 'Отменить редактирование' : 'Редактировать профиль' }}
+        </button>
+
+        <form v-if="isEditingProfile" class="edit-profile-form" @submit.prevent="updateProfile">
+          <input v-model.trim="profileForm.firstName" type="text" minlength="2" required placeholder="Ваше имя" />
+          <input v-model.trim="profileForm.email" type="email" required placeholder="Email" />
+          <input v-model.trim="profileForm.avatar_url" type="url" placeholder="URL аватара" />
+          <textarea v-model.trim="profileForm.bio" rows="3" placeholder="Коротко о себе"></textarea>
+
+          <button type="submit" class="add-article-btn" :disabled="isUpdatingProfile">
+            {{ isUpdatingProfile ? 'Сохраняем...' : 'Сохранить профиль' }}
+          </button>
+        </form>
+
+        <p v-if="profileMessage" class="profile-message">{{ profileMessage }}</p>
+        <p v-if="profileError" class="profile-error">{{ profileError }}</p>
+
         <div class="user-stats">
           <div class="stat">
             <span class="stat-number">{{user.countPost}}</span>
@@ -90,6 +110,16 @@ export default {
     return {
       showArticleForm: false,
       showArticleView: false,
+      isEditingProfile: false,
+      isUpdatingProfile: false,
+      profileMessage: '',
+      profileError: '',
+      profileForm: {
+        firstName: '',
+        email: '',
+        avatar_url: '',
+        bio: ''
+      },
       features: [
         { id: 1, title: 'Создание статей', description: 'Пишите и публикуйте свои статьи' },
         { id: 2, title: 'Комментирование', description: 'Комментируйте статьи других пользователей' },
@@ -98,6 +128,57 @@ export default {
     };
   },
   methods: {
+        toggleEditProfile() {
+      this.isEditingProfile = !this.isEditingProfile;
+      this.profileMessage = '';
+      this.profileError = '';
+
+      if (this.isEditingProfile) {
+        this.profileForm = {
+          firstName: this.user.name || '',
+          email: this.user.email || '',
+          avatar_url: this.user.avatar_url || '',
+          bio: this.user.bio || ''
+        };
+      }
+    },
+
+    async updateProfile() {
+      this.profileMessage = '';
+      this.profileError = '';
+      this.isUpdatingProfile = true;
+
+      try {
+        const response = await api.put('/Entrance/UpdateUser', {
+          firstName: this.profileForm.firstName,
+          email: this.profileForm.email,
+          avatar_url: this.profileForm.avatar_url,
+          bio: this.profileForm.bio
+        });
+
+        if (!response.data.success) {
+          this.profileError = response.data.errorMessage || 'Не удалось обновить профиль';
+          return;
+        }
+
+        const updatedUser = response.data.user || {};
+
+        this.user.name = updatedUser.name || this.profileForm.firstName;
+        this.user.email = updatedUser.email || this.profileForm.email;
+        this.user.avatar_url = updatedUser.avatar_url || this.profileForm.avatar_url;
+        this.user.bio = updatedUser.bio || this.profileForm.bio;
+        this.user.role = updatedUser.role || this.user.role;
+        this.user.countPost = updatedUser.countPost ?? this.user.countPost;
+
+        this.profileMessage = 'Профиль успешно обновлен';
+        this.isEditingProfile = false;
+        this.$emit('profile-updated', { ...this.user });
+      } catch (error) {
+        this.profileError = error.response?.data?.errorMessage || 'Ошибка при обновлении профиля';
+      } finally {
+        this.isUpdatingProfile = false;
+      }
+    },
     async logout() {
         try {
             await api.post('/Entrance/Logout');
@@ -144,6 +225,12 @@ export default {
   },
   async mounted() {
     console.log('Dashboard получил пользователя:', this.user);
+      this.profileForm = {
+      firstName: this.user.name || '',
+      email: this.user.email || '',
+      avatar_url: this.user.avatar_url || '',
+      bio: this.user.bio || ''
+    };
     this.GetCountComments();
     this.GetCountPost();
   }

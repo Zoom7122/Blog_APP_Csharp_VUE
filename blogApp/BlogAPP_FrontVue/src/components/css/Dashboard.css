@@ -159,6 +159,31 @@
   opacity: 0.85;
 }
 
+.edit-toggle-btn {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(16, 24, 40, 0.16);
+  border-radius: 12px;
+  background: #fff;
+  color: #0f172a;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.edit-toggle-btn:hover {
+  border-color: rgba(66, 184, 131, 0.35);
+}
+
+.profile-error {
+  margin: 0;
+  color: #b42318;
+  font-weight: 800;
+}
+
+.edit-profile-form button:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
 
 .edit-profile-form {
   margin-top: 12px;

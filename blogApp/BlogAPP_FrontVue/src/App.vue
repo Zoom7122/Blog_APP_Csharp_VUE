@@ -77,17 +77,39 @@ export default {
   },
   methods: {
 
+     normalizeUser(userData) {
+      if (!userData) return null;
+
+      return {
+        name: userData.name || userData.Name || '',
+        email: userData.email || userData.Email || '',
+        avatar_url: userData.avatar_url || userData.avatar || userData.Avatar || '',
+        role: userData.role || userData.Role || 'User',
+        countPost: Number(userData.countPost ?? userData.CountPost ?? 0),
+        bio: userData.bio || userData.Bio || '',
+        CountCommetsUser: Number(userData.CountCommetsUser ?? 0)
+      };
+    },
+
     handleLoginSuccess(userData) {
       console.log('Получены данные пользователя:', userData);
       this.isLoggedIn = true;
-      this.userData = userData;
-      localStorage.setItem('user', JSON.stringify(userData));
+      const normalizedUser = this.normalizeUser(userData);
+      this.userData = normalizedUser;
+      localStorage.setItem('user', JSON.stringify(normalizedUser));
     },
     
     handleRegistrationSuccess(registrationData) {
       console.log('Регистрация успешна:', registrationData);
       this.currentPage = 'login';
       alert('Регистрация успешна! Теперь вы можете войти в систему.');
+    },
+
+    
+    handleProfileUpdated(updatedUser) {
+      const normalizedUser = this.normalizeUser(updatedUser);
+      this.userData = normalizedUser;
+      localStorage.setItem('user', JSON.stringify(normalizedUser));
     },
     
     // Метод проверки авторизации
@@ -99,8 +121,9 @@ export default {
         
         if (response.data.success) {
           this.isLoggedIn = true;
-          this.userData = response.data.user || response.data;
-          localStorage.setItem('user', JSON.stringify(response.data.user));
+         const normalizedUser = this.normalizeUser(response.data.user || response.data);
+          this.userData = normalizedUser;
+          localStorage.setItem('user', JSON.stringify(normalizedUser));
         }
       } catch (error) {
         console.log('Пользователь не авторизован');
