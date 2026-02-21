@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BlogAPP_BLL\BlogAPP_BLL.csproj" />
     <ProjectReference Include="..\BlogAPP_DAL\BlogAPP_DAL.csproj" />
   </ItemGroup>

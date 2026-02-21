@@ -80,7 +80,7 @@ namespace BlagAPP_MVC.Controllers
                     return Redirect(returnUrl);
                 }
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Account", "Login");
             }
             catch (Exception ex)
             {
@@ -96,7 +96,7 @@ namespace BlagAPP_MVC.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Account", "Login");
         }
     }
 }
