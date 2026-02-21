@@ -7,11 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BlogAPP_BLL\BlogAPP_BLL.csproj" />
+    <ProjectReference Include="..\BlogAPP_DAL\BlogAPP_DAL.csproj" />
   </ItemGroup>
 
 </Project>

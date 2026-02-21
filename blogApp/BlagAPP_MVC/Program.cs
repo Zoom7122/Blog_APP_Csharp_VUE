@@ -1,7 +1,40 @@
+using BlogAPP_Core;
+using blogApp_DAL;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using BlogAPP_BLL.DependencyInjection;
+using BlogAPP_DAL;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SameSite = SameSiteMode.Lax;
+        options.Cookie.Name = "MvcAuthCookie";
+        options.LoginPath = "/Account/Login";
+        options.LogoutPath = "/Account/Logout";
+        options.ExpireTimeSpan = TimeSpan.FromDays(1);
+        options.SlidingExpiration = true;
+    });
+
+var cs = builder.Configuration.GetConnectionString("Default");
+if (string.IsNullOrWhiteSpace(cs))
+{
+    cs = $"Data source={GetPath.GetDatabasePath()}";
+}
+
+builder.Services.AddDbContext<Blog_DBcontext>(opt => opt.UseSqlite(cs));
+builder.Services.AddDal();
+builder.Services.AddBll();
+
+builder.Services.AddAuthorization();
+
 
 var app = builder.Build();
 
@@ -16,6 +49,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
