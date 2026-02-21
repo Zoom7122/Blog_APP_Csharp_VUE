@@ -2,6 +2,7 @@
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
   </Folder>
+  <Project Path="BlagAPP_MVC/BlagAPP_MVC.csproj" Id="f2709e48-6b87-4f5d-a2da-e70572859cfb" />
   <Project Path="BlogAPP_API/BlogAPP_API.csproj" />
   <Project Path="BlogAPP_BLL/BlogAPP_BLL.csproj" />
   <Project Path="BlogAPP_Core/BlogAPP_Core.csproj" Id="00887fd0-26aa-4547-bbe1-dd1244e256a7" />
