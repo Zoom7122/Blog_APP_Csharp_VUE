@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BlagAPP_MVC.Views.Account
 {
-    public class LoginModel : PageModel
+    public class RegisterModel : PageModel
     {
         public void OnGet()
         {

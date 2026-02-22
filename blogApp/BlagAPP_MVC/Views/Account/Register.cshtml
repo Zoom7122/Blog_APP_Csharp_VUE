@@ -1,0 +1,62 @@
+﻿@model BlagAPP_MVC.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+<div class="auth-page auth-register-page">
+    <div class="auth-card">
+        <h1>Регистрация</h1>
+        <p>Создайте новый аккаунт для доступа к системе</p>
+
+        <form asp-action="Register" method="post" class="auth-form">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly" class="error-message"></div>
+
+            <div class="form-group">
+                <label asp-for="FirstName">Имя пользователя:</label>
+                <input asp-for="FirstName" class="input-field" placeholder="Иван" />
+                <span asp-validation-for="FirstName" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email">Email адрес:</label>
+                <input asp-for="Email" class="input-field" placeholder="ivan@example.com" />
+                <span asp-validation-for="Email" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password">Пароль:</label>
+                <input asp-for="Password" class="input-field" placeholder="Минимум 8 символов" />
+                <span asp-validation-for="Password" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ConfirmPassword">Подтверждение пароля:</label>
+                <input asp-for="ConfirmPassword" class="input-field" placeholder="Повторите пароль" />
+                <span asp-validation-for="ConfirmPassword" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AvatarUrl">Ссылка на аватар (необязательно):</label>
+                <input asp-for="AvatarUrl" class="input-field" placeholder="https://example.com/avatar.jpg" />
+                <span asp-validation-for="AvatarUrl" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Bio">О себе (необязательно):</label>
+                <textarea asp-for="Bio" class="input-field textarea" rows="3" placeholder="Расскажите немного о себе..."></textarea>
+                <span asp-validation-for="Bio" class="error-message"></span>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">Зарегистрироваться</button>
+                <a asp-action="Login" class="secondary-btn">Уже есть аккаунт? Войти</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

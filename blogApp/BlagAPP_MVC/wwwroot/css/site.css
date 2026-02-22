@@ -144,3 +144,133 @@ body {
     font-weight: 700;
     margin: 0;
 }
+.auth-page {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.auth-card {
+    margin: 12px auto;
+    padding: 26px;
+    border-radius: 18px;
+    background: #fff;
+    border: 1px solid rgba(16, 24, 40, 0.08);
+    box-shadow: 0 20px 45px rgba(16, 24, 40, 0.10);
+}
+
+    .auth-card h1 {
+        margin: 0;
+        font-size: 26px;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        color: #0f172a;
+        text-align: center;
+    }
+
+    .auth-card > p {
+        margin: 10px 0 0 0;
+        text-align: center;
+        color: #64748b;
+        font-size: 14px;
+    }
+
+.auth-form {
+    margin-top: 18px;
+    padding: 18px;
+    border-radius: 16px;
+    border: 1px solid rgba(15, 23, 42, 0.10);
+    background: rgba(248, 250, 252, 0.70);
+}
+
+    .auth-form .form-group {
+        margin-bottom: 14px;
+        display: grid;
+        gap: 8px;
+    }
+
+        .auth-form .form-group label {
+            font-size: 13px;
+            font-weight: 800;
+            color: #334155;
+        }
+
+.input-field {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid rgba(15, 23, 42, 0.14);
+    border-radius: 12px;
+    font-size: 15px;
+    outline: none;
+    background: #fff;
+    color: #0f172a;
+    box-sizing: border-box;
+}
+
+    .input-field:focus {
+        border-color: rgba(66, 184, 131, 0.7);
+        box-shadow: 0 0 0 4px rgba(66, 184, 131, 0.18);
+    }
+
+.textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.error-message {
+    color: #b91c1c;
+    font-size: 12.5px;
+    font-weight: 700;
+}
+
+.form-actions {
+    display: grid;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px 14px;
+    border: 0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #42b883, #2aa56e);
+    color: #fff;
+    font-weight: 900;
+    font-size: 15px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+
+.secondary-btn {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: rgba(66, 184, 131, 0.08);
+    color: #1f7a56;
+    border: 1px solid rgba(66, 184, 131, 0.25);
+    font-weight: 900;
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.success-box {
+    margin-top: 16px;
+    border-radius: 16px;
+    padding: 16px;
+    background: rgba(34, 197, 94, 0.08);
+    border: 1px solid rgba(34, 197, 94, 0.22);
+}
+
+    .success-box h3 {
+        margin: 0 0 8px 0;
+        color: #166534;
+        font-size: 16px;
+    }
+
+    .success-box p {
+        margin: 0;
+        color: #166534;
+        font-size: 14px;
+    }

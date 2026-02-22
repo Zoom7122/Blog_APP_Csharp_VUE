@@ -101,5 +101,56 @@ namespace BlagAPP_MVC.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Account");
         }
+
+
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("Register")]
+        public IActionResult Register()
+        {
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+
+            return View(new RegisterViewModel());
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("Register")]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                await _loginService.Register(new CreateUserDto
+                {
+                    FirstName = model.FirstName.Trim(),
+                    Email = model.Email.Trim(),
+                    Password = model.Password,
+                    Avatar_url = model.AvatarUrl?.Trim(),
+                    Bio = model.Bio?.Trim(),
+                    Role = "User"
+                });
+
+                TempData["SuccessMessage"] = "Регистрация прошла успешно. Теперь войдите в аккаунт.";
+                return RedirectToAction(nameof(Login));
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                return View(model);
+            }
+
+            
+        }
+
     }
 }
