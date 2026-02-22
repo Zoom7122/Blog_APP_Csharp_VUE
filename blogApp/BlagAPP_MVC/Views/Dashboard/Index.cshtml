@@ -1,0 +1,94 @@
+﻿@model BlagAPP_MVC.Models.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="dashboard-page">
+    <div class="dashboard-header">
+        <h1>Добро пожаловать в Dashboard!</h1>
+        <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="logout-btn">Выйти</button>
+        </form>
+    </div>
+
+    <div class="user-profile">
+        <div class="avatar-section">
+            <img src="@(string.IsNullOrWhiteSpace(Model.AvatarUrl) ? "https://placehold.co/140x140?text=User" : Model.AvatarUrl)" alt="@Model.Name" class="avatar" />
+        </div>
+
+        <div class="user-info">
+            <h2>@Model.Name</h2>
+            <p><strong>Email:</strong> @Model.Email</p>
+            <p><strong>Роль:</strong> @Model.Role</p>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Bio))
+            {
+                <p><strong>О себе:</strong> @Model.Bio</p>
+            }
+
+            @if (TempData["ProfileMessage"] is string profileMessage)
+            {
+                <p class="profile-message">@profileMessage</p>
+            }
+
+            <form asp-action="UpdateProfile" method="post" class="edit-profile-form">
+                @Html.AntiForgeryToken()
+
+                <input asp-for="UpdateProfile.FirstName" placeholder="Ваше имя" />
+                <span asp-validation-for="UpdateProfile.FirstName" class="text-danger"></span>
+
+                <input asp-for="UpdateProfile.Email" placeholder="Email" />
+                <span asp-validation-for="UpdateProfile.Email" class="text-danger"></span>
+
+                <input asp-for="UpdateProfile.AvatarUrl" placeholder="URL аватара" />
+                <span asp-validation-for="UpdateProfile.AvatarUrl" class="text-danger"></span>
+
+                <textarea asp-for="UpdateProfile.Bio" rows="3" placeholder="Коротко о себе"></textarea>
+
+                <button type="submit" class="add-article-btn">Сохранить профиль</button>
+            </form>
+
+            <div class="user-stats">
+                <div class="stat">
+                    <span class="stat-number">@Model.CountPost</span>
+                    <span class="stat-label">Статей</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">@Model.CountCommentsUser</span>
+                    <span class="stat-label">Комментариев</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-content">
+        <h3>Ваши возможности:</h3>
+        <div class="features">
+            <div class="feature-card">
+                <h4>Создание статей</h4>
+                <p>Пишите и публикуйте свои статьи</p>
+            </div>
+            <div class="feature-card">
+                <h4>Комментирование</h4>
+                <p>Комментируйте статьи других пользователей</p>
+            </div>
+            <div class="feature-card">
+                <h4>Редактирование профиля</h4>
+                <p>Настройте свой профиль</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-content">
+        <h3>Быстрые действия:</h3>
+        <div class="dashboard-actions">
+            <a href="/swagger" class="add-article-btn">📝 Добавить статью</a>
+            <a href="/swagger" class="add-article-btn">Найти статью</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

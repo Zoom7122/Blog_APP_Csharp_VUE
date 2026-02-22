@@ -24,7 +24,7 @@ namespace BlagAPP_MVC.Controllers
         {
             if (User.Identity?.IsAuthenticated == true)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Dashboard");
             }
 
             ViewData["ReturnUrl"] = returnUrl;
@@ -80,7 +80,7 @@ namespace BlagAPP_MVC.Controllers
                     return Redirect(returnUrl);
                 }
 
-                return RedirectToAction("Account", "Login");
+                return RedirectToAction("Index", "Dashboard");
             }
             catch (Exception ex)
             {
@@ -93,10 +93,11 @@ namespace BlagAPP_MVC.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Logout")]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Account", "Login");
+            return RedirectToAction("Login", "Account");
         }
     }
 }
