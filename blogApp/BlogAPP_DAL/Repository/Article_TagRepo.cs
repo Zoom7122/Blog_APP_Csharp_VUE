@@ -25,5 +25,18 @@ namespace BlogAPP_DAL.Repository
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task DeleteRowsByArticleIdAsync(string articleId)
+        {
+            var articleTags = await _context.Article_Tags
+                .Where(x => x.Article_id == articleId)
+                .ToListAsync();
+
+            if (!articleTags.Any())
+                return;
+
+            _context.Article_Tags.RemoveRange(articleTags);
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -21,5 +21,7 @@ namespace BlogAPP_BLL.Intarface
 
         Task<ArticleReturnInAPI> FindArticleByID(string articleId);
 
+        Task<bool> UpdateArticleAsync(UpdateArticleModel model, string userEmail);
+
     }
 }

@@ -1,4 +1,69 @@
-﻿@model BlogAPP_BLL.Models.ArticleReturnInAPI;
+﻿@model BlogAPP_Core.Models.UpdateArticleModel
 @{
 	ViewData["Title"] = "Редактирование статьи";
+}
+
+<link rel="stylesheet" href="~/css/article-create.css" />
+
+<div class="article-create-container">
+    <div class="header">
+        <h1>Редактирование статьи</h1>
+    </div>
+
+    <form asp-action="UpdateArticlePost" asp-controller="Article"
+        method="post" class="ArticleAddForm">
+        @Html.AntiForgeryToken()
+        <input asp-for="Id" type="hidden" />
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div asp-validation-summary="All"></div>
+        }
+
+        <div>
+            <label asp-for="Title"></label>
+            <input asp-for="Title" />
+            <span asp-validation-for="Title"></span>
+        </div>
+
+        <div>
+            <label>Теги</label>
+            @for (int i = 0; i < 3; i++)
+            {
+                <input type="text" name="Tag" 
+                value="@(Model.Tag != null && Model.Tag.Count > i ? Model.Tag[i] : string.Empty)" 
+                placeholder="Тег @(i + 1)" />
+            }
+        </div>
+
+        <div>
+            <label asp-for="CoverImage"></label>
+            <input asp-for="CoverImage" />
+            <span asp-validation-for="CoverImage"></span>
+        </div>
+
+        <div>
+            <label asp-for="Description"></label>
+            <textarea asp-for="Description"></textarea>
+            <span asp-validation-for="Description"></span>
+        </div>
+
+        <div>
+            <label asp-for="Text"></label>
+            <textarea asp-for="Text"></textarea>
+            <span asp-validation-for="Text"></span>
+        </div>
+
+        <div>
+            <label asp-for="ReadTime"></label>
+            <input asp-for="ReadTime" type="number" min="1" />
+            <span asp-validation-for="ReadTime"></span>
+        </div>
+
+        <button type="submit">Сохранить изменения</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

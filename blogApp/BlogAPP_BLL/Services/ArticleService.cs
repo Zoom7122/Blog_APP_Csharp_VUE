@@ -93,8 +93,39 @@ namespace BlogAPP_BLL.Services
         public async Task<ArticleReturnInAPI> FindArticleByID(string articleId)
         {
             var article = await _articleRepo.GetArticleByIdAsync(articleId);
+            if (article == null)
+                return null;
 
-            return _mapper.Map<ArticleReturnInAPI>(article);
+            var articleToPush = _mapper.Map<ArticleReturnInAPI>(article);
+            articleToPush.Tags = await _articleRepo.GetTagNamesByArticleIdAsync(articleId) ?? new List<string>();
+
+            return articleToPush;
+        }
+
+        public async Task<bool> UpdateArticleAsync(UpdateArticleModel model, string userEmail)
+        {
+            if (model == null || string.IsNullOrWhiteSpace(model.Id))
+                throw new ArticleException("Некорректные данные статьи");
+
+            var article = await _articleRepo.GetArticleByIdAsync(model.Id);
+            if (article == null)
+                throw new ArticleException("Статья не найдена");
+
+            if (article.Author_Email != userEmail)
+                throw new ArticleException("Недостаточно прав для редактирования статьи");
+
+            article.Title = model.Title;
+            article.Text = model.Text;
+            article.Description = model.Description;
+            article.Cover_image = model.CoverImage;
+            article.ReadTime = model.ReadTime;
+
+            var result = await _articleRepo.UpdateArticleAsync(article);
+            if (!result)
+                return false;
+
+            await _tagService.SyncArticleTagsAsync(article.Id, model.Tag);
+            return true;
         }
 
         public async Task<List<ArticleReturnInAPI>> FindArticleByProperties(ArticlePropertiesFind properties)

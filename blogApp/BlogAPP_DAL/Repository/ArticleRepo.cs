@@ -134,5 +134,21 @@ namespace BlogAPP_DAL.Repository
 
             return true;
         }
+
+        public async Task<bool> UpdateArticleAsync(Article article)
+        {
+            var existing = await _context.Articles.FirstOrDefaultAsync(x => x.Id == article.Id);
+            if (existing == null)
+                return false;
+
+            existing.Title = article.Title;
+            existing.Text = article.Text;
+            existing.Description = article.Description;
+            existing.Cover_image = article.Cover_image;
+            existing.ReadTime = article.ReadTime;
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

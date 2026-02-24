@@ -7,6 +7,17 @@
 
 <div class="article-view">
 
+    @if (TempData["Error"] is string errorMessage)
+    {
+        <div class="alert alert-danger" role="alert">@errorMessage</div>
+    }
+
+    @if (TempData["SuccessMessage"] is string successMessage)
+    {
+        <div class="alert alert-success" role="alert">@successMessage</div>
+    }
+
+
     @if (TempData["ListArticleIsNull"] is string ListArticleIsNull)
     {
         <div class="alert alert-success" role="alert">@ListArticleIsNull</div>
@@ -69,11 +80,9 @@
                 }
 
 
-                <form asp-action="UpdateArticle" asp-controller="Article" method="post">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="ArticleId" value="@article.Id" />
-                    <button type="submit">Редактировать статью</button>
-                </form>
+                <a asp-action="UpdateArticle" asp-controller="Article" asp-route-articleId="@article.Id" class="btn btn-primary">
+                    Редактировать статью
+                </a>
             </div>
         }
     }

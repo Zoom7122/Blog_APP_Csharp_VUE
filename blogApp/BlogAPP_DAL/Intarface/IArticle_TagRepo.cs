@@ -8,5 +8,7 @@ namespace BlogAPP_DAL.Intarface
     public interface IArticle_TagRepo
     {
         Task CreateRowTable(Article_Tag article_Tag);
+
+        Task DeleteRowsByArticleIdAsync(string articleId);
     }
 }

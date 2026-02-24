@@ -116,19 +116,63 @@ namespace BlagAPP_MVC.Controllers
 
         }
 
-        [HttpPost]
-        [Route("UpdateArticle")]
-        public async Task<IActionResult> UpdateArticle(string ArticleID)
+        [HttpGet]
+        [Route("UpdateArticle/{articleId}")]
+        public async Task<IActionResult> UpdateArticle(string articleId)
         {
-            var userEmail =User.FindFirst(ClaimTypes.Email)?.Value;
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            var article = await _articleService.FindArticleByID(articleId);
 
-            var article = await _articleService.FindArticleByID(ArticleID);
+            if (article == null)
+            {
+                TempData["Error"] = "Статья не найдена";
+                return RedirectToAction(nameof(MyArticle));
+            }
 
-            if (userEmail != article?.Author_Email)
-                TempData["Error"] = "Ошибка сопоставления email";
+            if (userEmail != article.Author_Email)
+            {
+                TempData["Error"] = "Недостаточно прав для редактирования статьи";
+                return RedirectToAction(nameof(MyArticle));
+            }
 
-            return View(article);
+            var model = new UpdateArticleModel
+            {
+                Id = article.Id,
+                Title = article.Title,
+                Description = article.Description,
+                Text = article.Text,
+                CoverImage = article.Cover_image,
+                ReadTime = article.ReadTime ?? 1,
+                Tag = article.Tags ?? new List<string>()
+            };
+
+            return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("UpdateArticle")]
+        public async Task<IActionResult> UpdateArticlePost(UpdateArticleModel model)
+        {
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            try
+            {
+                var result = await _articleService.UpdateArticleAsync(model, userEmail);
+                if (result)
+                {
+                    TempData["SuccessMessage"] = "Статья успешно обновлена";
+                    return RedirectToAction(nameof(MyArticle));
+                }
+
+                ModelState.AddModelError("", "Не удалось обновить статью");
+                return View("UpdateArticle", model);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View("UpdateArticle", model);
+            }
+        }
     }
 }
+

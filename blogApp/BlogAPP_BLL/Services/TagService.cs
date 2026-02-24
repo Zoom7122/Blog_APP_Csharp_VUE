@@ -58,5 +58,24 @@ namespace BlogAPP_BLL.Services
             return;
         }
 
+        public async Task SyncArticleTagsAsync(string articleId, List<string> tags)
+        {
+            await _article_TagRepo.DeleteRowsByArticleIdAsync(articleId);
+
+            if (tags == null || tags.Count == 0)
+                return;
+
+            var normalizedTags = tags
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .Select(x => x.Trim())
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            for (int i = 0; i < normalizedTags.Count; i++)
+            {
+                await CreatrTagToArticleAsync(normalizedTags[i], articleId);
+            }
+        }
+
     }
 }
