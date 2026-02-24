@@ -1,42 +1,21 @@
-﻿@model BlagAPP_MVC.Models.ArticleSearchViewModel
+﻿@model List<BlogAPP_BLL.Models.ArticleReturnInAPI>
 @{
-    ViewData["Title"] = "Просмотр статей";
+	ViewData["Title"] = "My Article";
 }
 
 <link rel="stylesheet" href="~/css/article-view.css" />
 
 <div class="article-view">
 
-    @if (TempData["CommentSuccess"] is string successMessage)
+    @if (TempData["ListArticleIsNull"] is string ListArticleIsNull)
     {
-        <div class="alert alert-success" role="alert">@successMessage</div>
+        <div class="alert alert-success" role="alert">@ListArticleIsNull</div>
     }
-
-    @if (TempData["CommentError"] is string errorMessage)
+    else
     {
-        <div class="alert alert-danger" role="alert">@errorMessage</div>
-    }
-   
-
-    <form asp-action="ArticleView" asp-controller="Article" method="post" class="search-container">
-        @Html.AntiForgeryToken()
-        <input asp-for="Title" placeholder="Введите название" />
-        <input asp-for="Tag" placeholder="Введите тег" />
-        <button type="submit">Найти по свойствам</button>
-    </form>
-
-    @if (Model.SearchCompleted && Model.Articles.Count == 0)
-    {
-        <div class="no-articles">Статьи не найдены. Попробуйте изменить критерии поиска.</div>
-    }
-
-    @if (Model.Articles.Count > 0)
-    {
-        <div class="articles-count">Найдено статей: @Model.Articles.Count</div>
-
-        @for (var index = 0; index < Model.Articles.Count; index++)
+        @for (var index = 0; index < Model.Count; index++)
         {
-            var article = Model.Articles[index];
+            var article = Model[index];
             <div class="article-item">
                 <div class="article-header">
                     <h2 class="article-title">@(string.IsNullOrWhiteSpace(article.Title) ? "Без названия" : article.Title)</h2>
@@ -72,13 +51,6 @@
                     <p>@(string.IsNullOrWhiteSpace(article.Text) ? "Содержание статьи отсутствует" : article.Text)</p>
                 </div>
 
-                @if (!string.IsNullOrWhiteSpace(article.Author_Email))
-                {
-                    <div class="article-footer">
-                        <span class="email">Email автора: @article.Author_Email</span>
-                    </div>
-                }
-
                 @if (article.comments?.Count > 0)
                 {
                     <details class="divComments">
@@ -96,24 +68,12 @@
                     </details>
                 }
 
-                @if (User.Identity?.IsAuthenticated == true)
-                {
-                    <form asp-action="Add" asp-controller="Comments" method="post" class="mt-3">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="ArticleId" value="@article.Id" />
-                        <input type="hidden" name="SearchTitle" value="@Model.Title" />
-                        <input type="hidden" name="SearchTag" value="@Model.Tag" />
 
-                        <div class="mb-2">
-                            <textarea name="Content" class="form-control" rows="3" maxlength="1000" placeholder="Добавьте комментарий..."></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-sm">Отправить комментарий</button>
-                    </form>
-                }
-                else
-                {
-                    <div class="mt-3 text-muted">Чтобы оставить комментарий, войдите в аккаунт.</div>
-                }
+                <form asp-action="UpdateArticle" asp-controller="Article" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="ArticleId" value="@article.Id" />
+                    <button type="submit">Редактировать статью</button>
+                </form>
             </div>
         }
     }

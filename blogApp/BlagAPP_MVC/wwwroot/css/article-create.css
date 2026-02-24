@@ -70,8 +70,6 @@ body {
         transform: translateY(1px);
     }
 
-/* Кнопка выйти — у тебя стоит inline style с красным цветом.
-   Чтобы была зелёная как на скрине, либо убери inline style, либо оставь !important */
 .article-create-container .btn.btn-primary {
     min-width: 120px;
     background: linear-gradient(180deg, #35c481, #25a96f) !important;
@@ -153,7 +151,7 @@ textarea#Text {
     resize: vertical;
 }
 
-/* Блок тегов: у тебя 3 input подряд внутри одного div */
+/* Блок тегов: 3 input подряд внутри одного div */
 .ArticleAddForm input[name="Tag"] {
     margin-bottom: 8px;
 }
@@ -162,13 +160,14 @@ textarea#Text {
         margin-bottom: 0;
     }
 
-/* Блок "ReadTime" стилизуем как мета-панель (у тебя это последний div перед кнопкой) */
+/* Блок "ReadTime" стилизуем как мета-панель */
 .ArticleAddForm > div:last-of-type {
     background: #f8fafc;
     border: 1px solid #e5e7eb;
     border-radius: 12px;
     padding: 12px;
     margin-top: 6px;
+    
 }
 
     .ArticleAddForm > div:last-of-type label {

@@ -90,6 +90,13 @@ namespace BlogAPP_BLL.Services
             return await _articleRepo.DeleteArticleByIdAsync(articleId);
         }
 
+        public async Task<ArticleReturnInAPI> FindArticleByID(string articleId)
+        {
+            var article = await _articleRepo.GetArticleByIdAsync(articleId);
+
+            return _mapper.Map<ArticleReturnInAPI>(article);
+        }
+
         public async Task<List<ArticleReturnInAPI>> FindArticleByProperties(ArticlePropertiesFind properties)
         {
             if (properties == null)
@@ -117,6 +124,20 @@ namespace BlogAPP_BLL.Services
 
             }
             return listArticleToPush;
+        }
+
+        public async Task<List<ArticleReturnInAPI>> FindArticleWroteByuser(string emailUser)
+        {
+             var listArticle = await _articleRepo.GetArticlesByEmailAthorAsync(emailUser);
+
+            var listToPush = new List<ArticleReturnInAPI>();
+
+            for (int i = 0; i < listArticle.Count; i++)
+            {
+                listToPush.Add(_mapper.Map<ArticleReturnInAPI>(listArticle[i]));
+            }
+            
+            return listToPush;
         }
 
         private async Task<List<Article>> GetArticlesByCriteria(ArticlePropertiesFind properties)

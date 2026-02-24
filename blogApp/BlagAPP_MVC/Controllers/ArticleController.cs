@@ -10,8 +10,8 @@ using System.Security.Claims;
 
 namespace BlagAPP_MVC.Controllers
 {
-    //[Authorize]
-    [AllowAnonymous]
+    [Authorize]
+    //[AllowAnonymous]
     public class ArticleController : Controller
     {
 
@@ -31,7 +31,7 @@ namespace BlagAPP_MVC.Controllers
         [Route("CreateArticle")]
         public async Task<IActionResult> CreateArticle()
         {
-            return View(new CreateArticleModel());
+            return View(new CreateArticleModel() { ReadTime = 1 });
         }
 
         [HttpPost]
@@ -100,6 +100,34 @@ namespace BlagAPP_MVC.Controllers
             model.SearchCompleted = true;
 
             return View(model);
+        }
+
+        [HttpGet]
+        [Route("MyArticle")]
+        public async Task<IActionResult> MyArticle()
+        {
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+
+            var listArticle = await _articleService.FindArticleWroteByuser(userEmail);
+
+            if (listArticle == null) TempData["ListArticleIsNull"] = "У вас пока нет статей";
+
+            return View(listArticle);
+
+        }
+
+        [HttpPost]
+        [Route("UpdateArticle")]
+        public async Task<IActionResult> UpdateArticle(string ArticleID)
+        {
+            var userEmail =User.FindFirst(ClaimTypes.Email)?.Value;
+
+            var article = await _articleService.FindArticleByID(ArticleID);
+
+            if (userEmail != article?.Author_Email)
+                TempData["Error"] = "Ошибка сопоставления email";
+
+            return View(article);
         }
 
     }

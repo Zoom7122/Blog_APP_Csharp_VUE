@@ -60,6 +60,18 @@ body {
     background: linear-gradient(135deg, #42b883, #2aa56e);
 }
 
+.dashboard-page .stat-link {
+    display: inline-flex; 
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+    .stat-link:hover {
+        opacity: 0.9;
+    }
+
 .dashboard-page .user-profile {
     display: grid;
     grid-template-columns: 160px 1fr;

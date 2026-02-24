@@ -17,5 +17,9 @@ namespace BlogAPP_BLL.Intarface
 
         Task<bool> DeleteArticleAsync(string articleId);
 
+        Task<List<ArticleReturnInAPI>> FindArticleWroteByuser(string emailUser);
+
+        Task<ArticleReturnInAPI> FindArticleByID(string articleId);
+
     }
 }

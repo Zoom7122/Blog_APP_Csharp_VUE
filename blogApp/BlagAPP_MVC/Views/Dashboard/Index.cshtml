@@ -50,10 +50,10 @@
             </form>
 
             <div class="user-stats">
-                <div class="stat">
+                <a asp-controller="Article" asp-action="MyArticle" class="stat stat-link">
                     <span class="stat-number">@Model.CountPost</span>
                     <span class="stat-label">Статей</span>
-                </div>
+                </a>
                 <div class="stat">
                     <span class="stat-number">@Model.CountCommentsUser</span>
                     <span class="stat-label">Комментариев</span>
