@@ -41,6 +41,11 @@ namespace BlagAPP_MVC.Controllers
             CreateArticleModel model)
         {
 
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             try
             {
                 var allClimes = User.Claims.ToList();
@@ -163,6 +168,12 @@ namespace BlagAPP_MVC.Controllers
         [Route("UpdateArticle")]
         public async Task<IActionResult> UpdateArticlePost(UpdateArticleModel model)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return View("UpdateArticle", model);
+            }
+
             var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
             try
             {

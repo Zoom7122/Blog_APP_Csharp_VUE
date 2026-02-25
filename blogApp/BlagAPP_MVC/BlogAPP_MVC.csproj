@@ -12,8 +12,15 @@
   </ItemGroup>
 
   <ItemGroup>
+	<PackageReference Include="NLog.Web.AspNetCore" Version="6.0.5" />
     <ProjectReference Include="..\BlogAPP_BLL\BlogAPP_BLL.csproj" />
     <ProjectReference Include="..\BlogAPP_DAL\BlogAPP_DAL.csproj" />
   </ItemGroup>
+
+   <ItemGroup>
+	   <None Update="nlog.config">
+		   <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	   </None>
+   </ItemGroup>
 
 </Project>

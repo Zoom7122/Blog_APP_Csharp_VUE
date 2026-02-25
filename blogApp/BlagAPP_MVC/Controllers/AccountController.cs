@@ -12,10 +12,24 @@ namespace BlagAPP_MVC.Controllers
     public class AccountController : Controller
     {
         private readonly ILoginService _loginService;
+        private readonly ILogger<AccountController> _logger;
 
-        public AccountController(ILoginService loginService)
+        public AccountController(ILoginService loginService, ILogger<AccountController> logger)
         {
+            _logger = logger;
             _loginService = loginService;
+        }
+        
+        /// <summary>
+        /// Для проверки страницы "Что-то пошло не так"
+        /// </summary>
+        /// <returns></returns>
+
+        [HttpGet]
+        [Route("BOOM")]
+        public async Task<IActionResult> boom()
+        {
+            return StatusCode(500);
         }
 
         [AllowAnonymous]
@@ -46,6 +60,7 @@ namespace BlagAPP_MVC.Controllers
 
             try
             {
+                _logger.LogInformation($"Login attempt for { model.Email}");
                 var user = await _loginService.Login(new LoginDate
                 {
                     Email = model.Email,
@@ -79,8 +94,11 @@ namespace BlagAPP_MVC.Controllers
 
                 if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
                 {
+                    _logger.LogInformation($"User {user.Email} logged in and redirected to returnUrl");
                     return Redirect(returnUrl);
                 }
+
+                _logger.LogInformation($"User {user.Email} logged in successfully");
 
                 return RedirectToAction("Index", "Dashboard");
             }
@@ -98,7 +116,11 @@ namespace BlagAPP_MVC.Controllers
         [Route("Logout")]
         public async Task<IActionResult> Logout()
         {
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            _logger.LogInformation($"User {email} logged out");
+
             return RedirectToAction("Login", "Account");
         }
 
@@ -130,6 +152,8 @@ namespace BlagAPP_MVC.Controllers
 
             try
             {
+                _logger.LogInformation($"Register attempt for {model.Email}");
+
                 await _loginService.Register(new CreateUserDto
                 {
                     FirstName = model.FirstName.Trim(),
@@ -141,10 +165,12 @@ namespace BlagAPP_MVC.Controllers
                 });
 
                 TempData["SuccessMessage"] = "Регистрация прошла успешно. Теперь войдите в аккаунт.";
+                _logger.LogInformation($"User {model.Email} registered successfully");
                 return RedirectToAction(nameof(Login));
             }
             catch (Exception ex)
             {
+                _logger.LogWarning(ex, $"Register failed for {model.Email}");
                 ModelState.AddModelError(string.Empty, ex.Message);
                 return View(model);
             }

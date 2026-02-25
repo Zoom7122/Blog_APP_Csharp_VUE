@@ -1,0 +1,158 @@
+﻿/* Фон страницы */
+.auth-page {
+    min-height: calc(100vh - 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: #f3f4f6;
+}
+
+/* Карточка */
+.auth-card {
+    width: 100%;
+    max-width: 760px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    padding: 28px 22px;
+}
+
+/* Заголовок */
+.auth-title {
+    margin: 0;
+    text-align: center;
+    font-size: 36px;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.2;
+}
+
+.auth-subtitle {
+    margin: 8px 0 22px;
+    text-align: center;
+    color: #64748b;
+    font-size: 14px;
+}
+
+/* Форма внутри карточки */
+.auth-form {
+    background: #f8fafc;
+    border: 1px solid #dbe1e8;
+    border-radius: 14px;
+    padding: 18px 16px 14px;
+}
+
+/* Группа полей */
+.auth-group {
+    margin-bottom: 16px;
+}
+
+/* Лейблы */
+.auth-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    color: #0f172a;
+}
+
+/* Поля ввода */
+.auth-input {
+    width: 100%;
+    height: 46px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    background: #ffffff;
+    padding: 0 14px;
+    font-size: 14px;
+    color: #111827;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+    .auth-input::placeholder {
+        color: #94a3b8;
+    }
+
+    .auth-input:focus {
+        border-color: #34d399;
+        box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.15);
+    }
+
+/* Ошибки */
+.auth-error {
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+    color: #dc2626;
+}
+
+.auth-validation-summary {
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+    .auth-validation-summary ul {
+        margin: 0;
+        padding-left: 18px;
+    }
+
+/* Кнопки */
+.auth-btn {
+    width: 100%;
+    height: 44px;
+    border-radius: 12px;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    margin-top: 10px;
+}
+
+/* Основная зелёная кнопка */
+.auth-btn-primary {
+    background: linear-gradient(180deg, #43c98e 0%, #2fb071 100%);
+    color: #ffffff;
+    box-shadow: 0 6px 14px rgba(47, 176, 113, 0.22);
+}
+
+    .auth-btn-primary:hover {
+        transform: translateY(-1px);
+        filter: brightness(0.98);
+        color: #ffffff;
+    }
+
+/* Вторая кнопка */
+.auth-btn-secondary {
+    background: #eef7f3;
+    border: 1px solid #bfe7d3;
+    color: #0f6b46;
+}
+
+    .auth-btn-secondary:hover {
+        background: #e6f4ee;
+        color: #0f6b46;
+    }
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .auth-card {
+        padding: 20px 14px;
+        border-radius: 14px;
+    }
+
+    .auth-title {
+        font-size: 28px;
+    }
+
+    .auth-form {
+        padding: 14px 12px 10px;
+    }
+}

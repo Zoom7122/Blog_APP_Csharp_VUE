@@ -30,6 +30,7 @@ namespace BlagAPP_MVC.Controllers
             if (!ModelState.IsValid)
             {
                 TempData["CommentError"] = "Проверьте корректность заполнения комментария.";
+                return RedirectToAction("ArticleView", "Article", new { title = model.SearchTitle, tag = model.SearchTag });
             }
 
             try

@@ -3,27 +3,39 @@
     ViewData["Title"] = "Вход";
 }
 
-<h2 class="mb-3">Вход в аккаунт</h2>
+<link rel="stylesheet" href="/css/Login.css" />
 
-<form asp-action="Login" method="post" class="col-md-6">
-    @Html.AntiForgeryToken()
-    <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+<div class="auth-page">
+    <div class="auth-card">
+        <h2 class="auth-title">Вход</h2>
+        <p class="auth-subtitle">Войдите в аккаунт для доступа к системе</p>
 
-    <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+        <form asp-action="Login" method="post" class="auth-form">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
 
-    <div class="mb-3">
-        <label asp-for="Email" class="form-label"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
+            <div asp-validation-summary="ModelOnly" class="auth-validation-summary text-danger"></div>
+
+            <div class="auth-group">
+                <label asp-for="Email" class="auth-label"></label>
+                <input asp-for="Email" class="auth-input" placeholder="ivan@example.com" />
+                <span asp-validation-for="Email" class="auth-error"></span>
+            </div>
+
+            <div class="auth-group">
+                <label asp-for="Password" class="auth-label"></label>
+                <input asp-for="Password" type="password" class="auth-input" placeholder="Введите пароль" />
+                <span asp-validation-for="Password" class="auth-error"></span>
+            </div>
+
+            <button type="submit" class="auth-btn auth-btn-primary">Войти</button>
+
+            <a asp-controller="Account" asp-action="Register" class="auth-btn auth-btn-secondary">
+                Нет аккаунта? Зарегистрироваться
+            </a>
+        </form>
     </div>
-
-    <div class="mb-3">
-        <label asp-for="Password" class="form-label"></label>
-        <input asp-for="Password" class="form-control" />
-    </div>
-
-    <button type="submit" class="btn btn-primary">Войти</button>
-</form>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
