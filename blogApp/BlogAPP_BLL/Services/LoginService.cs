@@ -38,17 +38,7 @@ namespace BlogAPP_BLL.Services
             if (user == null)
                 throw new UserNotFoundException("Пользователь не найден");
 
-            var normalizedEmail = string.IsNullOrWhiteSpace(data.Email) ? user.Email : data.Email.Trim();
-
-            if (!string.Equals(user.Email, normalizedEmail, StringComparison.OrdinalIgnoreCase))
-            {
-                var existingUser = await _userRepo.FindUserByEmail(normalizedEmail);
-                if (existingUser != null)
-                    throw new RegisterException("Пользователь с таким email уже существует");
-            }
-
             user.FirstName = data.FirstName?.Trim() ?? user.FirstName;
-            user.Email = normalizedEmail;
             user.Avatar_url = data.Avatar_url?.Trim() ?? string.Empty;
             user.Bio = data.Bio?.Trim() ?? string.Empty;
 

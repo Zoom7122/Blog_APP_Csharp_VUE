@@ -1,3 +1,4 @@
+using BlogAPP_BLL.DependencyInjection;
 using BlogAPP_BLL.Intarface;
 using BlogAPP_BLL.Mappings;
 using BlogAPP_BLL.Models;
@@ -11,7 +12,8 @@ using BlogAPP_DAL.Intarface;
 using BlogAPP_DAL.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using BlogAPP_BLL.DependencyInjection;
+using Microsoft.OpenApi;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,6 +68,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
+
 var app = builder.Build();
 
 app.UseMiddleware<BlogAPP_API.Middleware.ExceptionHandlingMiddleware>();
@@ -77,14 +80,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseExceptionHandler(errorApp =>
-//{
-//    errorApp.Run(async context =>
-//    {
-//        context.Response.StatusCode = 500;
-//        await context.Response.WriteAsJsonAsync(new { message = "Ошибка сервера" });
-//    });
-//});
 
 app.UseHttpsRedirection();
 
