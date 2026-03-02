@@ -48,12 +48,15 @@ builder.Services.AddTransient<BlogAPP_API.Middleware.ExceptionHandlingMiddleware
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
+var allowedOrigins = builder.Configuration.GetSection("CORS:AllowedOrigins").Get<string[]>()
+    ?? ["http://localhost:5173"];
+
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowVue", policy =>
     {
-        policy.WithOrigins("http://localhost:5173")  // адрес Vue
+        policy.WithOrigins(allowedOrigins)  // адрес Vue
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();

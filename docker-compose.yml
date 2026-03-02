@@ -1,0 +1,39 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Default: Data Source=/app/data/db.db
+      CORS__AllowedOrigins: http://localhost:5173
+    ports:
+      - "5277:8080"
+    volumes:
+      - blogapp-data:/app/data
+
+  mvc:
+    build:
+      context: .
+      dockerfile: docker/mvc.Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Default: Data Source=/app/data/db.db
+    ports:
+      - "5257:8081"
+    volumes:
+      - blogapp-data:/app/data
+
+  vue:
+    build:
+      context: .
+      dockerfile: docker/vue.Dockerfile
+    environment:
+      VITE_API_URL: http://localhost:5277/api
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+
+volumes:
+  blogapp-data:
